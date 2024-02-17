@@ -1,0 +1,69 @@
+div.topMenuContainer{
+    position:absolute;
+    width:100%;
+    height:100px;
+    left:10px;
+    background:transparent;
+    z-index: 2000;
+    display:flex;
+}
+
+div.button_background{
+    position:relative;
+    left:-7px;
+    margin-left:4px;
+    width:auto;
+    height:18px;
+    top:20%;
+    background:white;
+    border-radius:60px;
+    border:1px solid black;
+    display:flex;
+    transition:filter 0.2s;
+    cursor:pointer;
+}
+div.button_background:hover{
+    filter:invert(0.3);
+}
+div.button_background_selected{
+    position:relative;
+    left:-7px;
+    margin-left:4px;
+    width:auto;
+    height:18px;
+    top:20%;
+    background:white;
+    border-radius:60px;
+    border:1px solid black;
+    display:flex;
+   transition:filter 0.2s;
+   filter: invert(1);
+}
+div.icon_container_menu{
+    position:relative;
+    left:5px;
+  
+    width:15px;
+    height:15px;
+    background:transparent;
+}
+
+div.icon_container_menu img{
+    position:relative;
+    width:12px;
+    height:12px;
+    
+}
+div.text_container_menu{
+    position:relative;
+    background:transparent;
+    width:auto;
+    top:2px;
+    height:15px;
+    left:6px;
+    font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    margin-right:12px;
+}
