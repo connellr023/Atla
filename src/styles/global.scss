@@ -4,10 +4,14 @@ $main-text-color: white;
 body {
   background: transparent;
   color: $main-bg-color;
+  margin:0px;
+  padding:0px;
 }
 
 .flex-wrapper {
   display: relative;
+  border:0px;
+  margin:0px;
   width:100%;
   height:100%;
 }
