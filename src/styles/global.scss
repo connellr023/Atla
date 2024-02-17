@@ -2,14 +2,16 @@ $main-bg-color: black;
 $main-text-color: white;
 
 body {
-  background: $main-bg-color;
-  color: $main-text-color;
+  background: transparent;
+  color: $main-bg-color;
+  margin:0px;
+  padding:0px;
 }
 
 .flex-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
+  display: relative;
+  border:0px;
+  margin:0px;
+  width:100%;
+  height:100%;
 }
