@@ -13,8 +13,7 @@ constructor(props){
   public render = () => {
     return (
       
-      <main className="flex-wrapper">
-                
+      
         <div className={styles.container}>
         <MapContainer className={styles.map}  center={this.state.mapLocation} zoom={13}
                          zoomControl={ false} >
@@ -24,7 +23,7 @@ constructor(props){
                         />
         </MapContainer>
         </div>
-      </main>
+    
     );
   }
 }
