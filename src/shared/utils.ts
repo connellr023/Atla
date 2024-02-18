@@ -1,1 +1,1 @@
-export const hostname = process.env.NODE_ENV === "production" ? "..." : "http://localhost:3000";
+export const hostname = process.env.NODE_ENV === "production" ? "https://atla-ch2024.vercel.app" : "http://localhost:3000";

@@ -14,12 +14,16 @@ const MapElementDyn = dynamic(() => import("../components/MapElement"), { ssr: f
 
 export const getServerSideProps = async () => {
   try {
-    const response = await fetch(`${hostname}/api/locations`);
-    const locations = await response.json();
+    const locationsRes = await fetch(`${hostname}/api/locations`);
+    const eventsRes = await fetch(`${hostname}/api/events`);
+
+    const locations = await locationsRes.json();
+    const events = await eventsRes.json();
 
     return {
       props: {
-        locations: locations
+        locations: locations,
+        events: events
       },
     };
   } catch (error) {
@@ -33,15 +37,18 @@ class Map extends React.Component<any, any> {
   private keys;
   private values;
   private iconPaths;
+  private indexedEvents;
 
   constructor(props: any) {
     super(props);
+
+    console.log(props.events);
 
     this.state = {
       selectedIndex: 0,
       past_select_location: false,
       displayLocations: false,
-      location: Location
+      selectedLocation: Location
     };
 
     this.keys = Object.keys(Categories);
@@ -56,6 +63,20 @@ class Map extends React.Component<any, any> {
       "/agriculture.png",
       "/plus.png"
     ];
+
+    // Index events by their category enumeration
+    this.indexedEvents = props.events.reduce((result: any, item: any) => {
+      const { category } = item;
+
+      if (!result[category]) {
+        result[category] = [];
+      }
+
+      result[category].push(item);
+      return result;
+    }, {});
+
+    console.log(this.indexedEvents);
   }
 
   public setIndex = (i: any) => {
@@ -63,7 +84,7 @@ class Map extends React.Component<any, any> {
   };
 
   public locationSelected = (location: any) => {
-    this.setState({ location: location });
+    this.setState({ selectedLocation: location });
     this.setState({ displayLocations: false });
     this.setState({ past_select_location: true });
   }
@@ -143,7 +164,7 @@ class Map extends React.Component<any, any> {
               }}
             >
               <div className={styles.icon_container_menu}>
-                <img src={this.iconPaths[6]} alt=""></img>
+                <img src={this.iconPaths[6]} alt="" />
               </div>
               <div className={styles.text_container_menu}>{"Add Event"}</div>
             </div>
@@ -151,7 +172,7 @@ class Map extends React.Component<any, any> {
         </div>
         <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} displayLocations={this.state.displayLocations} updateLocation={this.locationSelected} />
         {/* Yeah this is hacky but it is a hackathon ¯\_(ツ)_/¯ */}
-        {this.state.selectedIndex === 6 && this.state.past_select_location ? <AddEventForum onExit={this.updateState} location={this.state.location} addEvent={this.handleAddEvent}/> : <></>}
+        {this.state.selectedIndex === 6 && this.state.past_select_location ? <AddEventForum onExit={this.updateState} location={this.state.selectedLocation} addEvent={this.handleAddEvent}/> : <></>}
         {this.state.selectedIndex === 7 ? <SuccessModal onExit={this.handleCloseModal} title="Event Created" message="Successfully created event!" /> : <></>}
         {/* ^ Idk what these numbers even mean ^ */}
         <CreditFooter />
