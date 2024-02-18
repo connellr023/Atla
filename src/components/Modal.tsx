@@ -14,7 +14,8 @@ const Modal: React.FC<ModalProps> = ({ onExit, title, children }) => {
       <div className={styles.background}>
         <div className={styles.content}>
           <div className={styles.title}><b>{title}</b></div>
-          <img className={styles.exit} onClick={onExit} src="/exit.png" alt="exit" />
+          <img onClick={onExit} src="/exit.png" alt="exit" />
+          <br />
           {children}
         </div>
       </div>
