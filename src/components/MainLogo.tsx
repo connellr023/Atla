@@ -15,6 +15,7 @@ const MainLogo: React.FC = () => {
       width={70}
       height={70}
       onClick={open}
+      priority
     />
   );
 }
