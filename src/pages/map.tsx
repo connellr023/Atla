@@ -40,7 +40,8 @@ class Map extends React.Component<any, any>
     this.state = {
       selectedIndex:0,
       past_select_location:false,
-      displayLocations:false
+      displayLocations:false,
+      numberAddEvent: 0
     }
 
     this.keys = Object.keys(Categories);
@@ -51,14 +52,10 @@ class Map extends React.Component<any, any>
     //.sideIcons = [icon,icon,icon,icon,icon,icon,icon];
   }
   setIndex = (e, i) =>{
-    //if (this.state.past_){
+    //if (this.state.selectedIndex != 6){
       this.setState({selectedIndex:i});
-    //}
+    
 
-  }
-  locationSelected (e, i){
-
-    console.log("location selected");
   }
   public render = () => {
     const { locations } = this.props;
@@ -111,7 +108,11 @@ class Map extends React.Component<any, any>
               </div>)}
             
           })}
-          {this.state.selectedIndex==6 ? <div className = {styles.button_background_selected}>
+          {this.state.selectedIndex==6 ? <div className = {styles.button_background_selected} onClick = {(e) =>{
+                    this.setIndex(e,0)
+                    this.setState({displayLocations:false})
+                    }
+                   }>
                       <div className = {styles.icon_container_menu}>
                       <img src = {this.iconPaths[6]}></img>
                       </div>
@@ -139,7 +140,7 @@ class Map extends React.Component<any, any>
       </div>
       <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} displayLocations = {this.state.displayLocations} />
      
-      { this.state.selectedIndex==6 && this.state.past_select_location ? 
+      { this.state.selectedIndex==6? 
        <AddEvent ></AddEvent>:null
       } 
     </main>
