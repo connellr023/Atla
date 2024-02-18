@@ -1,0 +1,8 @@
+@import "variables.scss";
+
+div.message {
+    font-family: $main-font;
+    font-size: 16px;
+    color: white;
+    width:90%;
+}

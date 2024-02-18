@@ -9,6 +9,7 @@ import CreditFooter from "@/components/CreditFooter";
 import EventSchema from "@/shared/EventSchema";
 import Location from "@/shared/Location";
 import SuccessModal from "@/components/SuccessModal";
+import WelcomePage from "@/components/WelcomeModal";
 
 const MapElementDyn = dynamic(() => import("../components/MapElement"), { ssr: false });
 
@@ -48,7 +49,8 @@ class Map extends React.Component<any, any>
       displayLocations: false,
       displayEventsIndex: 0,
       events: props.events,
-      selectedLocation: Location
+      selectedLocation: Location,
+      inWelcomePage:true
     };
 
     this.keys = Object.keys(Categories);
@@ -87,6 +89,9 @@ class Map extends React.Component<any, any>
       })
     );
   }
+  public handleWelcomeExit = () =>{
+    this.setState({inWelcomePage:false});
+  }
 
   public handleCloseModal = () => {
     this.setState({ selectedIndex: 0 });
@@ -98,6 +103,8 @@ class Map extends React.Component<any, any>
   
     return (
       <main className="flex-wrapper">
+        {this.state.inWelcomePage ? <WelcomePage onExit={this.handleWelcomeExit} title="Welcome to Atla" message="Your Hub for Volunteering Events. Alta aims to bring the Calgarian community together by providing a centralized platform to post and view volunteering events" ></WelcomePage>:null}
+
         <MainLogo />
         <div className={styles.topMenuContainer}>
           {this.state.selectedIndex == 0 ? (
