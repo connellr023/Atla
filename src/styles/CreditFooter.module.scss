@@ -1,0 +1,12 @@
+@import "variables.scss";
+
+footer.credit {
+    $dist: 6px;
+
+    user-select: none;
+    font-family: $main-font;
+    font-size: 12px;
+    position: absolute;
+    left: $dist;
+    bottom: $dist;
+}

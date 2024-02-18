@@ -15,6 +15,14 @@ interface MapComponentProps
 }
 
 class MapElement extends React.Component<MapComponentProps> {
+  private handleMouseOver = (e: any) => {
+    e.target.openPopup();
+  };
+
+  private handleMouseOut = (e: any) => {
+    e.target.closePopup();
+  };
+
   public render = () => {
     const { locations, initialPosition, displayLocations} = this.props;
 
@@ -38,8 +46,8 @@ class MapElement extends React.Component<MapComponentProps> {
                 />
                 {displayLocations ? locations.map((location, i) =>{
                   return (
-                    <Marker key={i} eventHandlers={{ click: () => context?.updateSelectedLocation(location) }} icon={festival} position={[location.longitude, location.latitude]}>
-                      <Popup>
+                    <Marker riseOnHover={true} key={i} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut, click: () => context?.updateSelectedLocation(location) }} icon={festival} position={[location.longitude, location.latitude]}>
+                      <Popup className={styles.popup}>
                         {location.name}
                       </Popup>
                     </Marker>
