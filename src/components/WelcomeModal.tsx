@@ -6,15 +6,14 @@ import styles from "@/styles/WelcomeModal.module.scss";
 interface WelcomeModalProps
 {
     onExit: () => void,
-    title: string,
-    message: string
+    title: string
 }
 
-const WelcomeModal: React.FC<WelcomeModalProps> = ({ onExit, title, message }) => {
+const WelcomeModal: React.FC<WelcomeModalProps> = ({ onExit, title }) => {
   return (
     <Modal onExit={onExit} title={title}>
       <br />
-      <div className={styles.message}>{message}</div>
+      <div className={styles.message}>Your Hub for Volunteering Events and more, Alta aims to bring the Calgarian community together by providing a centralized platform to post and view volunteering events.</div>
       <br />
       <Image
         className={styles.welcomeLogo}

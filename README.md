@@ -12,7 +12,22 @@
 
 <br />
 
-## Getting Started
+## Overview
+
+Your Hub for Volunteering Events and more, Alta aims to bring the Calgarian community together by providing a centralized platform to post and view volunteering events.
+
+<br />
+
+## Chosen Prompt
+
+$$
+\text{``Use the City of Calgary's Open Data Portal to develop a tool
+or application that supports and improves the lives of Calgarians."}
+$$
+
+<br />
+
+## Development
 
 First, run the development server:
 
@@ -27,6 +42,14 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Screenshots
+
+![](public/screenshots/1.PNG)
+![](public/screenshots/2.PNG)
+![](public/screenshots/3.PNG)
+![](public/screenshots/4.PNG)
+![](public/screenshots/5.PNG)
 
 <br />
 <br />

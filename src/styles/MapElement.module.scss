@@ -9,4 +9,5 @@ div.map {
     position: fixed;
     height: 100%;
     width: 100%;
+    filter: contrast(1) hue-rotate(-30deg) saturate(0.8);
 }
