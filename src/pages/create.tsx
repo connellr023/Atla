@@ -4,13 +4,13 @@ import React, { useEffect } from "react";
 
 const event: EventSchema = {
   name: "Test Event",
-  category: Categories.Animals,
+  category: Categories.Agriculture,
   description: "This is a description.",
   location: {
     name: "A cool place",
     street: "69th street",
-    latitude: 500,
-    longitude: 200
+    latitude: 51.049999,
+    longitude: -114.066666
   }
 };
 

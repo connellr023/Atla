@@ -12,12 +12,16 @@ const MapElementDyn = dynamic(() => import("../components/MapElement"), { ssr: f
 
 export const getServerSideProps = async () => {
   try {
-    const response = await fetch(`${hostname}/api/locations`);
-    const locations = await response.json();
+    const locationResponse = await fetch(`${hostname}/api/locations`);
+    const locations = await locationResponse.json();
+
+    const eventsResponse = await fetch(`${hostname}/api/events`);
+    const events = await eventsResponse.json();
 
     return {
       props: {
-        locations: locations
+        locations: locations,
+        events: events
       },
     };
   } catch (error) {
@@ -31,6 +35,7 @@ class Map extends React.Component<any, any> {
   private keys;
   private values;
   private iconPaths;
+  private mapElementRef;
 
   constructor(props: any) {
     super(props);
@@ -39,9 +44,10 @@ class Map extends React.Component<any, any> {
       selectedIndex: 0,
       past_select_location: false,
       displayLocations: false,
-      location: Location
+      location: Location,
+      displayEventsIndex:0,
+     
     };
-
     this.keys = Object.keys(Categories);
     this.values = Object.values(Categories);
 
@@ -80,8 +86,8 @@ class Map extends React.Component<any, any> {
   }
 
   public render = () => {
-    const { locations } = this.props;
-
+    const { locations, events } = this.props;
+  
     return (
       <main className="flex-wrapper">
         <MainLogo />
@@ -144,7 +150,7 @@ class Map extends React.Component<any, any> {
             </div>
           )}
         </div>
-        <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} displayLocations={this.state.displayLocations} updateLocation={this.locationSelected} />
+        <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} events = {events} displayLocations={this.state.displayLocations} updateLocation={this.locationSelected} displayEventIndex = {this.state.displayEventsIndex} currentCategory = {this.state.selectedIndex} />
         {this.state.selectedIndex === 6 && this.state.past_select_location ? <AddEventForum onExit = {this.updateState} l = {this.state.location} addEvent = {this.handleAddEvent}/> : null}
         <CreditFooter />
       </main>
