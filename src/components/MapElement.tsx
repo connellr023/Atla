@@ -14,10 +14,12 @@ interface MapComponentProps
   events:EventResponse,
   initialPosition: [number, number],
   displayLocations: boolean,
-  updateLocation: (location: Location) => void
+  currentCategory: number,
+  updateLocation: (location: Location) => void,
+  displayEventIndex: (index: number) => void
 }
 
-class MapElement extends React.Component<MapComponentProps>
+class MapElement extends React.Component<MapComponentProps, any>
 {
   private handleMouseOver = (e: any) => {
     e.target.openPopup();
@@ -29,28 +31,26 @@ class MapElement extends React.Component<MapComponentProps>
 
   private locationSelect;
   private events;
-  private values;
+
   constructor(props:any){
     super(props)
+
     this.locationSelect = props.updateLocation
-    this.events = props.events
-    this.values = Object.values(Categories)
+    this.events = props.events;
+
     this.state = {
       categoryState: props.currentCategory
     }
-    //this.eventsPerCategory = []
-    console.log("events: ", this.events, props.events)
-   
   }
-  componentWillReceiveProps(nextProps) {
-    console.log("change state");
+
+  public componentWillReceiveProps(nextProps: any) {
     this.setState({ categoryState: nextProps.currentCategory });  
   }
-  handleChangeState = (newCategory) =>{
-    console.log(newCategory);
+
+  public handleChangeState = (newCategory: any) =>{
     this.setState({categoryState: newCategory})
   }
- 
+
   public render = () => {
     const { locations, initialPosition, displayLocations} = this.props;
     
@@ -61,6 +61,7 @@ class MapElement extends React.Component<MapComponentProps>
       popupAnchor:  [-0, -0],
       iconSize: [15,15]
     });
+
     const festival = new L.Icon({
       className:"marker-unselected",
       iconUrl: "/festival.png",
@@ -68,6 +69,7 @@ class MapElement extends React.Component<MapComponentProps>
       popupAnchor:  [-0, -0],
       iconSize: [15,15]
     });
+
     const healthcare = new L.Icon({
       className:"marker-unselected",
       iconUrl: "/healthcare.png",
@@ -75,6 +77,7 @@ class MapElement extends React.Component<MapComponentProps>
       popupAnchor:  [-0, -0],
       iconSize: [15,15]
     });
+
     const agriculture = new L.Icon({
       className:"marker-unselected",
       iconUrl: "/agriculture.png",
@@ -82,6 +85,7 @@ class MapElement extends React.Component<MapComponentProps>
       popupAnchor:  [-0, -0],
       iconSize: [15,15]
     });
+
     const environment = new L.Icon({
       className:"marker-unselected",
       iconUrl: "/environment.png",
@@ -89,6 +93,7 @@ class MapElement extends React.Component<MapComponentProps>
       popupAnchor:  [-0, -0],
       iconSize: [15,15]
     });
+
     const education = new L.Icon({
       className:"marker-unselected",
       iconUrl: "/education.png",
@@ -115,7 +120,7 @@ class MapElement extends React.Component<MapComponentProps>
                   </Popup>
                 </Marker>
               )
-            }): this.events.map((ev,it) =>{
+            }): this.events.map((ev: any, it: any) =>{
              
                if (this.state.categoryState == 1 && ev.category=="Festival" || ev.category=="Festival" && this.state.categoryState == 0){
                   return(
@@ -161,13 +166,8 @@ class MapElement extends React.Component<MapComponentProps>
                       </Popup>
                     </Marker>
                   )
-
                 }
-
             })
-
-
-            
             }
         </MapContainer>
       </div>

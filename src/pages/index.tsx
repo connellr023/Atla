@@ -7,6 +7,7 @@ import styles from "@/styles/Map.module.scss";
 import Location from "@/shared/Location";
 import MainLogo from "@/components/MainLogo";
 import CreditFooter from "@/components/CreditFooter";
+import EventSchema from "@/shared/EventSchema";
 
 const MapElementDyn = dynamic(() => import("../components/MapElement"), { ssr: false });
 
@@ -35,7 +36,6 @@ class Map extends React.Component<any, any> {
   private keys;
   private values;
   private iconPaths;
-  private mapElementRef;
 
   constructor(props: any) {
     super(props);
@@ -45,9 +45,10 @@ class Map extends React.Component<any, any> {
       past_select_location: false,
       displayLocations: false,
       location: Location,
-      displayEventsIndex:0,
-     
+      displayEventsIndex: 0,
+      events: props.events
     };
+
     this.keys = Object.keys(Categories);
     this.values = Object.values(Categories);
 
@@ -78,15 +79,20 @@ class Map extends React.Component<any, any> {
     this.setState({past_select_location:false})
   }
 
-  public handleAddEvent = (e:any, r:any) => {
-    console.log(r)
+  public handleAddEvent = (e:any, eventData: EventSchema) => {
+    this.setState((prevState: any) => ({
+      events: [...prevState.events, eventData],
+    }));
+    
+    console.log(this.state.events);
     this.setState({displayLocations:false})
     this.setState({selectedIndex:0});
     this.setState({past_select_location:false})
   }
 
   public render = () => {
-    const { locations, events } = this.props;
+    const { locations } = this.props;
+    const { events } = this.state;
   
     return (
       <main className="flex-wrapper">
@@ -150,7 +156,7 @@ class Map extends React.Component<any, any> {
             </div>
           )}
         </div>
-        <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} events = {events} displayLocations={this.state.displayLocations} updateLocation={this.locationSelected} displayEventIndex = {this.state.displayEventsIndex} currentCategory = {this.state.selectedIndex} />
+        <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} events = {events} displayLocations={this.state.displayLocations} updateLocation={this.locationSelected} displayEventIndex={this.state.displayEventsIndex} currentCategory={this.state.selectedIndex} />
         {this.state.selectedIndex === 6 && this.state.past_select_location ? <AddEventForum onExit = {this.updateState} l = {this.state.location} addEvent = {this.handleAddEvent}/> : null}
         <CreditFooter />
       </main>
