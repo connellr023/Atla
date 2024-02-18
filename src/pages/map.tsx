@@ -38,7 +38,9 @@ class Map extends React.Component<any, any>
     super(props);
 
     this.state = {
-      selectedIndex:0
+      selectedIndex:0,
+      past_select_location:false,
+      displayLocations:false
     }
 
     this.keys = Object.keys(Categories);
@@ -47,6 +49,16 @@ class Map extends React.Component<any, any>
     this.iconPaths = ['/all.png','/festival.png', '/education.png', '/environment.png', '/healthcare.png', '/agriculture.png', '/plus.png']
    //this.selectedIndex = 0;
     //.sideIcons = [icon,icon,icon,icon,icon,icon,icon];
+  }
+  setIndex = (e, i) =>{
+    //if (this.state.past_){
+      this.setState({selectedIndex:i});
+    //}
+
+  }
+  locationSelected (e, i){
+
+    console.log("location selected");
   }
   public render = () => {
     const { locations } = this.props;
@@ -65,8 +77,7 @@ class Map extends React.Component<any, any>
           </div>
           </div>
        :
-            <div className = {styles.button_background} onClick = {(e) =>{
-                 this.setState({selectedIndex:0})}}>
+            <div className = {styles.button_background} onClick = {(e) =>this.setIndex(e,0)}>
                 <div className = {styles.icon_container_menu}>
                 <img src = {this.iconPaths[0]}></img>
                 </div>
@@ -89,8 +100,7 @@ class Map extends React.Component<any, any>
                   </div>)
               }else{
               return(
-              <div className = {styles.button_background} onClick = {(e) =>{
-                   this.setState({selectedIndex:i+1})}}>
+              <div className = {styles.button_background} onClick = {(e) =>this.setIndex(e,i+1)}>
                   <div className = {styles.icon_container_menu}>
                   <img src = {this.iconPaths[i+1]}></img>
                   </div>
@@ -101,8 +111,18 @@ class Map extends React.Component<any, any>
               </div>)}
             
           })}
-         <div className = {styles.button_background} onClick = {(e) =>{
-                   this.setState({selectedIndex:6})}
+          {this.state.selectedIndex==6 ? <div className = {styles.button_background_selected}>
+                      <div className = {styles.icon_container_menu}>
+                      <img src = {this.iconPaths[6]}></img>
+                      </div>
+                      <div className = {styles.text_container_menu}>
+                  {"Add Event"}
+                  </div>
+                  </div>: <div className = {styles.button_background} onClick = {(e) =>{
+                    this.setIndex(e,6)
+                  // this.setState({selectedIndex:6});
+                   this.setState({displayLocations:true})
+                  }
                     
                    }>
                       <div className = {styles.icon_container_menu}>
@@ -112,13 +132,15 @@ class Map extends React.Component<any, any>
                   {"Add Event"}
                   </div>
 
-                  </div>
+                  </div>}
+         
           
           
       </div>
-      <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} />
-      { this.state.selectedIndex==6 ? 
-       <AddEvent></AddEvent>:null
+      <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} displayLocations = {this.state.displayLocations} />
+     
+      { this.state.selectedIndex==6 && this.state.past_select_location ? 
+       <AddEvent ></AddEvent>:null
       } 
     </main>
     );

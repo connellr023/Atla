@@ -13,20 +13,21 @@ import 'leaflet/dist/leaflet.css';
 interface MapComponentProps
 {
   locations: LocationResponse,
-  initialPosition: [number, number]
+  initialPosition: [number, number],
+  displayLocations:boolean
 }
 
 
 class MapElement extends React.Component<MapComponentProps> {
   constructor(props:any){
     super(props);
-    this.state = {
-      displayLocations: true
-    }
+  }
+  handleLocationSelected = (e, loc) => {
+    console.log("loc",loc)
   }
   public render = () => {
 
-    const { locations, initialPosition } = this.props;
+    const { locations, initialPosition, displayLocations} = this.props;
 
 
     const festival = new L.Icon({
@@ -36,6 +37,7 @@ class MapElement extends React.Component<MapComponentProps> {
        popupAnchor:  [-0, -0],
        iconSize: [15,15]
    });
+   
     return (
       
       <div className={styles.container}>
@@ -45,19 +47,14 @@ class MapElement extends React.Component<MapComponentProps> {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {this.state.displayLocations ? locations.map((thing,c) =>{
-              console.log(thing)
+            {displayLocations ? locations.map((thing,c) =>{
+              //console.log(thing)
                 return(
                   <Marker  icon={festival}  position={[thing.longitude,thing.latitude]} eventHandlers={{
-                    click: (e) => {
-                        var te = [0,c];
-                        //this.forceUpdate();
-                        //this.setState({selectedAmmenity:te});
-                        //this.setState({selectedTopIndex:0});
-                        //this.setState({menuColapsed:false})
-                        //console.log("selecting house")
-                        //this.forceUpdate();
-                    },
+                    click: (e) =>this.handleLocationSelected(e, thing)
+                    
+                       
+                    
                 }}>
                     <Popup
                       
