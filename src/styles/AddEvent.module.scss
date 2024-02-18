@@ -1,9 +1,199 @@
-div.forum_container{
+
+div.adding_ammenity_container{
     position:relative;
-    width:100vw;
     height:100vh;
-    background:black;
-    opacity:80%;
-    z-index:5000;
+    width:100vw;
+    background:rgb(0,0,0,0.7);
+    z-index:500000
+}
+div.add_window{
+    position:relative;
+    width:500px;
+    height:auto;
+    background:white;
+    left: calc(50% - 250px);
+    top: calc(50% - 250px);
+    border-radius:10px;
     overflow:hidden;
+}
+div.adding_header{
+    position:relative;
+    width:100%;
+    height:50px;
+    background:transparent;
+    display:flex;
+    left:60px;
+}
+div.add_window_exit img{
+    position:relative;
+    width:100%;
+    height:100%;
+}
+div.add_window_exit{
+    position:relative;
+    width:20px;
+    height:20px;
+    top:10px;
+    background:transparent;
+    left: calc(100% - 100px);
+    filter:brightness(0%);
+    transition:filter 0.2s;
+    z-index:3000;
+}
+div.add_window_exit:hover{
+    filter:invert(50%);
+}
+div.add_window_title{
+    position:relative;
+    width:calc(100% - 20px);
+    background:transparent;
+    left:-60px;
+    top:5px;
+    text-transform:uppercase;
+    letter-spacing:5px;
+    font-size:25px;
+    border-bottom:1px solid black;
+}
+
+div.add_window_body{
+    position:relative;
+    height:auto;
+    width:100%;
+    background:transparent;
+    
+}
+div.add_window_footer{
+    position:relative;
+    width:30%;
+    height: 60px;
+    left:calc(50% - 17%);
+    background:transparent;
+}
+div.add_button_container{
+    position:relative;
+    width:70%;
+    height:50%;
+    left: 35px;
+    top:15px;
+    text-transform:uppercase;
+    letter-spacing:7px;
+    font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+    font-weight:bold;
+}
+
+div.first_row_container{
+    position:relative;
+    width:calc(100% - 20px);
+    height:60px;
+    background:transparent;
+    left:20px;
+    display:flex;
+    top:20px;
+    margin-bottom:15px;
+}
+
+
+div.desc_row_container{
+    position:relative;
+    width:calc(100% - 20px);
+    height:100px;
+    background:transparent;
+    left:20px;
+    display:flex;
+    top:10px;
+    margin-bottom:15px;
+}
+div.event_type_container{
+    position:relative;
+    width:calc(50% - 10px);
+    height:100%;
+    background:transparent;
+}
+div.event_type_text{
+    position:relative;
+    height:30px;
+    width:100%;
+    background:transparent;
+    font-family:"Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+    text-transform:Capitalize;
+    letter-spacing:2px;
+}
+div.event_type_text::before{
+    content:"*";
+    color:red;
+}
+div.event_type_select{
+    position:relative;
+    width:80%;
+    height:28px;
+    background:transparent;
+}
+div.event_type{
+    position:relative;
+    width:100%;
+    height:60px;
+    font-family:"Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+    font-size:17px;
+    letter-spacing:3px;
+}
+div.event_name_container{
+    position:relative;
+    width:calc(50% - 20px);
+    height:60px;
+    background:transparent;
+    left:10px;
+}
+div.event_name_enter{
+    position:relative;
+    width:100%;
+    height:30px;
+    background:transparent;
+    display:flex;
+    
+}
+
+div.event_name{
+    position:relative;
+    width:80%;
+    left:6px;
+    height:calc(100% - 5px);
+     font-family:"Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+     border:1px solid gray;
+     border-radius:3px;
+}
+div.event_name:focus{
+    position:relative;
+    width:80%;
+    left:5px;
+    height:calc(100% - 5px);
+}
+
+
+div.description_container{
+    position:relative;
+    height:65px;
+    width:calc(100% - 30px);
+    background: transparent;
+}
+div.description_container input{
+    position:relative;
+    height:100%;
+    width:calc(100% - 19px);
+    font-family:"Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+     border:1px solid gray;
+     border-radius:3px;
+}
+div.description{
+resize:none;
+ font-family:"Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif;
+     border:1px solid gray;
+     border-radius:3px;
+     font-size:14px;
+     letter-spacing:3px;
+}
+
+div.description:focus{
+    outline:none;
+    border-color: lightgray;
+    box-shadow: 0 0 10px lightgray
 }
