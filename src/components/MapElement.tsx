@@ -1,10 +1,10 @@
-import { MapContainer, TileLayer } from 'react-leaflet'
+import { MapContainer, TileLayer,Marker,Icon } from 'react-leaflet'
 import React from "react";
 import styles from "@/styles/MapElement.module.scss";
 
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import festival from '/festival.png';
+//import festival from '/festival.png';
 import { hostname } from '@/shared/utils';
 
 import LocationResponse from '@/shared/LocationResponse';
@@ -16,16 +16,23 @@ interface MapComponentProps
   initialPosition: [number, number]
 }
 
+
 class MapElement extends React.Component<MapComponentProps> {
+  constructor(props:any){
+    super(props);
+    this.state = {
+      displayLocations: true
+    }
+  }
   public render = () => {
 
     const { locations, initialPosition } = this.props;
 
 
-    const hou = new L.Icon({
+    const festival = new L.Icon({
       className:'marker-unselected',
-       iconUrl: festival,
-       iconRetinaUrl: festival,
+       iconUrl: '/location.png',
+       iconRetinaUrl: '/location.png',
        popupAnchor:  [-0, -0],
        iconSize: [15,15]
    });
@@ -33,15 +40,33 @@ class MapElement extends React.Component<MapComponentProps> {
       
       <div className={styles.container}>
         <MapContainer className={styles.map} center={initialPosition} zoom={13}
-
             zoomControl={false} >
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
+            {this.state.displayLocations ? locations.map((thing,c) =>{
+                                    return(
+                                     <Marker  icon={festival}  position={[thing.longitude,thing.latitude]} eventHandlers={{
+                                        click: (e) => {
+                                            var te = [0,c];
+                                            //this.forceUpdate();
+                                            //this.setState({selectedAmmenity:te});
+                                            //this.setState({selectedTopIndex:0});
+                                            //this.setState({menuColapsed:false})
+                                            console.log("selecting house")
+                                            //this.forceUpdate();
+                                        },
+                                    }}/>
+                                    )
+                                    
+                                }): null}
         </MapContainer>
+
+
       </div>
     );
+
   }
 }
 
