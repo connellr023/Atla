@@ -1,7 +1,10 @@
 enum Categories
 {
-    Music,
-    Animals
+    Festival = "Festival",
+    Education = "Education",
+    Environment = "Environment",
+    Healthcare = "Healthcare",
+    Agriculture = "Agriculture"
 }
 
 export default Categories;
