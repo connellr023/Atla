@@ -3,6 +3,7 @@ import styles from "@/styles/AddEventModal.module.scss";
 import Categories from "@/shared/Categories";
 import EventSchema from "@/shared/EventSchema";
 import Modal from "./Modal";
+import CreateEventResponse from "@/shared/CreateEventResponse";
 
 interface AddEventForumState
 {
@@ -54,7 +55,7 @@ class AddEventForum extends React.Component<any, AddEventForumState>
     }
   }
 
-  private handleOnChange = (e: any, i: any) => {
+  private handleOnChange = (e: any, i: number) => {
     switch (i) {
       case 0: // event name
         this.setState({ event: {...this.state.event, name: e.target.value }, message: this.state.message });
@@ -87,7 +88,8 @@ class AddEventForum extends React.Component<any, AddEventForumState>
       });
 
       if (response.ok) {
-        this.addEvent();
+        const data: CreateEventResponse = await response.json();
+        this.addEvent({ id: data.id, ...this.state.event });
       }
       else {
         this.displayError(`Received status code: ${response.status}`);
