@@ -31,7 +31,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 <br />
 <br />
 
-<footer align="center">
+<div align="center">
     <img width="110px" src="public/atla-logo-small.svg" />
     <div>Developed by <b>Connell Reffo</b> and <b>Tara Strickland</b> for <b>Calgary Hacks 2024</b></div>
-</footer>
+</div>
