@@ -41,6 +41,17 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+<br />
+
+## Tools Used
+ - **Next.js** to manage overall full stack requirements
+ - **React** for frontend logic
+ - **Vercel** for database hosting and deployment
+ - **Redis KV** to store event data
+ - **Calgary Open Data Portal API** to fetch location data
+
+<br />
+
 ## Screenshots
 
 ![](public/screenshots/1.PNG)
