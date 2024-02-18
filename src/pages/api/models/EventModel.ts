@@ -9,7 +9,7 @@ class EventModel implements EventSchema
     public id: string;
     public name: string;
     public description: string;
-    public catagery: Categories;
+    public category: Categories;
     public location: Location;
 
     constructor(
@@ -22,7 +22,7 @@ class EventModel implements EventSchema
         this.id = EventModel.getEventKey(uuidv4());
         this.name = name.trim();
         this.description = description.trim();
-        this.catagery = category;
+        this.category = category;
         this.location = location;
     }
 

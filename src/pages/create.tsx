@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 
 const event: EventSchema = {
   name: "Test Event",
-  catagery: Categories.Animals,
+  category: Categories.Animals,
   description: "This is a description.",
   location: {
     name: "A cool place",
