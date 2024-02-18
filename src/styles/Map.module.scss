@@ -27,6 +27,7 @@ div.topMenuContainer {
         transition: filter 0.2s;
         cursor: pointer;
         margin: $dist;
+        user-select: none;
     
         &:hover {
             filter: invert(0.3);
@@ -45,6 +46,7 @@ div.topMenuContainer {
         transition:filter 0.2s;
         filter: invert(1);
         margin: $dist;
+        user-select: none;
     }
 }
 

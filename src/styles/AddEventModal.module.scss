@@ -1,0 +1,18 @@
+div.add_window_body {
+    div.event_type_container {
+        margin-right: 20px;
+    }
+    
+    div.event_name_container {
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+    
+    div.desc_row_container {
+        margin-bottom: 15px;
+
+        textarea {
+            width: 70%
+        }
+    }
+}

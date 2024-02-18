@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import EventSchema from "@/shared/EventSchema";
 import EventModel from "./models/EventModel";
+import CreateEventResponse from "@/shared/CreateEventResponse";
 
 const isEventSchemaObject = (object: any): boolean => {
     return (
@@ -26,7 +27,11 @@ const CreateEventController = async (req: NextApiRequest, res: NextApiResponse) 
     
             await model.insert();
 
-            res.status(200).end();
+            const response: CreateEventResponse = {
+                id: model.id
+            };
+
+            res.status(200).json(response);
         }
         catch (error) {
             res.status(500).end();

@@ -5,13 +5,11 @@ import React from "react";
 import styles from "@/styles/MapElement.module.scss";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import Categories from "@/shared/Categories";
-import EventSchema from "@/shared/EventSchema";
 
 interface MapComponentProps
 {
   locations: LocationResponse,
-  events:EventResponse,
+  events: EventResponse,
   initialPosition: [number, number],
   displayLocations: boolean,
   currentCategory: number,
@@ -30,30 +28,31 @@ class MapElement extends React.Component<MapComponentProps, any>
   };
 
   private locationSelect;
-  private events;
 
-  constructor(props:any){
-    super(props)
+  constructor(props: any){
+    super(props);
 
-    this.locationSelect = props.updateLocation
-    this.events = props.events;
+    this.locationSelect = props.updateLocation;
 
     this.state = {
-      categoryState: props.currentCategory
+      categoryState: props.currentCategory,
+      events: props.events
     }
   }
 
-  public componentWillReceiveProps(nextProps: any) {
-    this.setState({ categoryState: nextProps.currentCategory });  
+  // Unsafe??? oh well.
+  public UNSAFE_componentWillReceiveProps(nextProps: any) {
+    this.setState({ categoryState: nextProps.currentCategory, events: nextProps.events });  
   }
 
   public handleChangeState = (newCategory: any) =>{
-    this.setState({categoryState: newCategory})
+    this.setState({ categoryState: newCategory })
   }
 
   public render = () => {
-    const { locations, initialPosition, displayLocations} = this.props;
-    
+    const { locations, initialPosition, displayLocations } = this.props;
+    const { events } = this.state;
+
     const loc = new L.Icon({
       className:"marker-unselected",
       iconUrl: "/location.png",
@@ -102,7 +101,6 @@ class MapElement extends React.Component<MapComponentProps, any>
       iconSize: [15,15]
     });
    
-   
     return (
       <div className={styles.container}>
         <MapContainer className={styles.map} center={initialPosition} zoom={13}
@@ -120,8 +118,7 @@ class MapElement extends React.Component<MapComponentProps, any>
                   </Popup>
                 </Marker>
               )
-            }): this.events.map((ev: any, it: any) =>{
-             
+            }): events.map((ev: any, it: any) =>{
                if (this.state.categoryState == 1 && ev.category=="Festival" || ev.category=="Festival" && this.state.categoryState == 0){
                   return(
                     <Marker riseOnHover={true} key={it} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut }} icon={festival} position={[ev.location.longitude, ev.location.latitude]}>

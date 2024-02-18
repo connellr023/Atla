@@ -1,23 +1,24 @@
 import { hostname } from "@/shared/utils";
 import React from "react";
 import Categories from "../shared/Categories";
-import AddEventForum from "@/components/AddEventForum";
+import AddEventForum from "@/components/AddEventModal";
 import dynamic from "next/dynamic";
 import styles from "@/styles/Map.module.scss";
-import Location from "@/shared/Location";
 import MainLogo from "@/components/MainLogo";
 import CreditFooter from "@/components/CreditFooter";
 import EventSchema from "@/shared/EventSchema";
+import Location from "@/shared/Location";
+import SuccessModal from "@/components/SuccessModal";
 
 const MapElementDyn = dynamic(() => import("../components/MapElement"), { ssr: false });
 
 export const getServerSideProps = async () => {
   try {
-    const locationResponse = await fetch(`${hostname}/api/locations`);
-    const locations = await locationResponse.json();
+    const locationsRes = await fetch(`${hostname}/api/locations`);
+    const eventsRes = await fetch(`${hostname}/api/events`);
 
-    const eventsResponse = await fetch(`${hostname}/api/events`);
-    const events = await eventsResponse.json();
+    const locations = await locationsRes.json();
+    const events = await eventsRes.json();
 
     return {
       props: {
@@ -32,7 +33,8 @@ export const getServerSideProps = async () => {
   }
 };
 
-class Map extends React.Component<any, any> {
+class Map extends React.Component<any, any>
+{
   private keys;
   private values;
   private iconPaths;
@@ -42,11 +44,11 @@ class Map extends React.Component<any, any> {
 
     this.state = {
       selectedIndex: 0,
-      past_select_location: false,
+      pastSelectedLocation: false,
       displayLocations: false,
-      location: Location,
       displayEventsIndex: 0,
-      events: props.events
+      events: props.events,
+      selectedLocation: Location
     };
 
     this.keys = Object.keys(Categories);
@@ -63,31 +65,31 @@ class Map extends React.Component<any, any> {
     ];
   }
 
-  public setIndex = (e: any, i: any) => {
+  public setIndex = (i: any) => {
     this.setState({ selectedIndex: i });
   };
 
   public locationSelected = (location: any) => {
-    this.setState({location: location});
-    this.setState({displayLocations: false});
-    this.setState({past_select_location: true});
+    this.setState({ selectedLocation: location, displayLocations: false, pastSelectedLocation: true });
   }
 
-  public updateState = (e: any) =>{
-    this.setState({displayLocations:false})
-    this.setState({selectedIndex:0});
-    this.setState({past_select_location:false})
+  public updateState = () =>{
+    this.setState({ displayLocations: false, selectedIndex: 0, pastSelectedLocation: false });
   }
 
-  public handleAddEvent = (e:any, eventData: EventSchema) => {
-    this.setState((prevState: any) => ({
-      events: [...prevState.events, eventData],
-    }));
-    
-    console.log(this.state.events);
-    this.setState({displayLocations:false})
-    this.setState({selectedIndex:0});
-    this.setState({past_select_location:false})
+  public handleAddEvent = (eventData: EventSchema) => {
+    this.setState(
+      (prevState: any) => ({
+        displayLocations: false,
+        selectedIndex: 7,
+        pastSelectedLocation: false,
+        events: [...prevState.events, eventData],
+      })
+    );
+  }
+
+  public handleCloseModal = () => {
+    this.setState({ selectedIndex: 0 });
   }
 
   public render = () => {
@@ -106,7 +108,7 @@ class Map extends React.Component<any, any> {
               <div className={styles.text_container_menu}>{"View All"}</div>
             </div>
           ) : (
-            <div className={styles.button_background} onClick={(e) => this.setIndex(e, 0)}>
+            <div className={styles.button_background} onClick={() => { this.setIndex(0); this.setState({ displayLocations: false }) }}>
               <div className={styles.icon_container_menu}>
                 <img src={this.iconPaths[0]} alt=""></img>
               </div>
@@ -114,50 +116,53 @@ class Map extends React.Component<any, any> {
             </div>
           )}
           {this.keys.map((_icon, i) => {
-            if (i + 1 == this.state.selectedIndex) {
+            if (i + 1 === this.state.selectedIndex) {
               return (
                 <div key={i} className={styles.button_background_selected}>
                   <div className={styles.icon_container_menu}>
-                    <img src={this.iconPaths[i+1]} alt=""></img>
+                    <img src={this.iconPaths[i + 1]} alt="" />
                   </div>
                   <div className={styles.text_container_menu}>{this.values[i]}</div>
                 </div>
               );
             } else {
               return (
-                <div key={i} className={styles.button_background} onClick={(e) => this.setIndex(e, i + 1)}>
+                <div key={i} className={styles.button_background} onClick={() => { this.setIndex(i + 1); this.setState({ displayLocations: false }) }}>
                   <div className={styles.icon_container_menu}>
-                    <img src={this.iconPaths[i + 1]} alt=""></img>
+                    <img src={this.iconPaths[i + 1]} alt="" />
                   </div>
                   <div className={styles.text_container_menu}>{this.values[i]}</div>
                 </div>
               );
             }
           })}
-          {this.state.selectedIndex == 6 ? (
+          {this.state.selectedIndex === 6 ? (
             <div className={styles.button_background_selected}>
               <div className={styles.icon_container_menu}>
-                <img src={this.iconPaths[6]} alt=""></img>
+                <img src={this.iconPaths[6]} alt="" />
               </div>
               <div className={styles.text_container_menu}>{"Add Event"}</div>
             </div>
           ) : (
             <div
               className={styles.button_background}
-              onClick={(e) => {
-                this.setIndex(e, 6);
+              onClick={() => {
+                this.setIndex(6);
                 this.setState({ displayLocations: true });
               }}
             >
               <div className={styles.icon_container_menu}>
-                <img src={this.iconPaths[6]} alt=""></img>
+                <img src={this.iconPaths[6]} alt="" />
               </div>
               <div className={styles.text_container_menu}>{"Add Event"}</div>
             </div>
           )}
         </div>
-        <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} events = {events} displayLocations={this.state.displayLocations} updateLocation={this.locationSelected} displayEventIndex={this.state.displayEventsIndex} currentCategory={this.state.selectedIndex} />
-        {this.state.selectedIndex === 6 && this.state.past_select_location ? <AddEventForum onExit = {this.updateState} l = {this.state.location} addEvent = {this.handleAddEvent}/> : null}
+        <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} events={events} displayLocations={this.state.displayLocations} updateLocation={this.locationSelected} displayEventIndex={this.state.displayEventsIndex} currentCategory={this.state.selectedIndex} />
+        {/* Yeah this is hacky but it is a hackathon ¯\_(ツ)_/¯ */}
+        {this.state.selectedIndex === 6 && this.state.pastSelectedLocation ? <AddEventForum onExit={this.updateState} location={this.state.selectedLocation} addEvent={this.handleAddEvent}/> : <></>}
+        {this.state.selectedIndex === 7 ? <SuccessModal onExit={this.handleCloseModal} title="Event Created" message="Successfully created event!" /> : <></>}
+        {/* ^ Idk what these numbers even mean ^ */}
         <CreditFooter />
       </main>
     );
