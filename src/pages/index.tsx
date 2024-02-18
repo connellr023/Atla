@@ -7,8 +7,8 @@ import styles from "@/styles/Map.module.scss";
 import MainLogo from "@/components/MainLogo";
 import CreditFooter from "@/components/CreditFooter";
 import EventSchema from "@/shared/EventSchema";
-import Location from "@/shared/Location";
 import SuccessModal from "@/components/SuccessModal";
+import ViewEventModal from "@/components/ViewEventModal";
 
 const MapElementDyn = dynamic(() => import("../components/MapElement"), { ssr: false });
 
@@ -48,7 +48,8 @@ class Map extends React.Component<any, any>
       displayLocations: false,
       displayEventsIndex: 0,
       events: props.events,
-      selectedLocation: Location
+      selectedLocation: {},
+      selectedEvent: {}
     };
 
     this.keys = Object.keys(Categories);
@@ -73,6 +74,10 @@ class Map extends React.Component<any, any>
     this.setState({ selectedLocation: location, displayLocations: false, pastSelectedLocation: true });
   }
 
+  public eventSelected = (event: EventSchema) => {
+    this.setState({ selectedEvent: event, displayLocations: false, selectedIndex: 8 });
+  }
+
   public updateState = () =>{
     this.setState({ displayLocations: false, selectedIndex: 0, pastSelectedLocation: false });
   }
@@ -94,7 +99,7 @@ class Map extends React.Component<any, any>
 
   public render = () => {
     const { locations } = this.props;
-    const { events } = this.state;
+    const { events, selectedEvent } = this.state;
   
     return (
       <main className="flex-wrapper">
@@ -158,10 +163,11 @@ class Map extends React.Component<any, any>
             </div>
           )}
         </div>
-        <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} events={events} displayLocations={this.state.displayLocations} updateLocation={this.locationSelected} displayEventIndex={this.state.displayEventsIndex} currentCategory={this.state.selectedIndex} />
+        <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} events={events} displayLocations={this.state.displayLocations} updateEvent={this.eventSelected} updateLocation={this.locationSelected} displayEventIndex={this.state.displayEventsIndex} currentCategory={this.state.selectedIndex} />
         {/* Yeah this is hacky but it is a hackathon ¯\_(ツ)_/¯ */}
         {this.state.selectedIndex === 6 && this.state.pastSelectedLocation ? <AddEventForum onExit={this.updateState} location={this.state.selectedLocation} addEvent={this.handleAddEvent}/> : <></>}
         {this.state.selectedIndex === 7 ? <SuccessModal onExit={this.handleCloseModal} title="Event Created" message="Successfully created event!" /> : <></>}
+        {this.state.selectedIndex === 8 ? <ViewEventModal onExit={this.handleCloseModal} selectedEvent={selectedEvent} /> : <></>}
         {/* ^ Idk what these numbers even mean ^ */}
         <CreditFooter />
       </main>
