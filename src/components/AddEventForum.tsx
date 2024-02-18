@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "@/styles/AddEvent.module.scss";
 import Categories from "@/shared/Categories";
+
 class AddEventForum extends React.Component<any, any>
 {
     constructor(props:any){
@@ -25,4 +26,6 @@ class AddEventForum extends React.Component<any, any>
     }
 
 
-}export default AddEventForum;
+}
+
+export default AddEventForum;
