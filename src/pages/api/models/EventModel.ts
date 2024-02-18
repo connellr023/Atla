@@ -19,19 +19,31 @@ class EventModel implements EventSchema
         location: Location
     )
     {
-        this.id = uuidv4();
+        this.id = EventModel.getEventKey(uuidv4());
         this.name = name.trim();
         this.description = description.trim();
         this.catagery = category;
         this.location = location;
     }
 
-    // public static fetchAll = (): EventModel[] => {
-    //     const events = kv.hgetall();
-    // }
+    private static getEventKey = (id: string): string => {
+        return `events-${id}`;
+    }
+
+    public static fetchAll = async (): Promise<EventSchema[]> => {
+        const keys = await kv.keys(EventModel.getEventKey("*"));
+
+        const result = await Promise.all(
+            keys.map(async (key) => {
+                return await kv.get<EventSchema>(key);
+            })
+        );
+        
+        return result.filter((data) => data !== null) as EventSchema[];
+    } 
 
     public insert = async () => {
-        await kv.set(this.id, JSON.stringify(this));
+        await kv.set(EventModel.getEventKey(this.id), JSON.stringify(this));
     }
 }
 

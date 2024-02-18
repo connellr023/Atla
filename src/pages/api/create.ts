@@ -1,8 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import EventSchema from "@/shared/EventSchema";
+import EventModel from "./models/EventModel";
 
-const isEventObject = (object: any): boolean => {
-    return (object.id && object.name && object.description && object.category && object.location.latitude && object.location.longitude);
+const isEventSchemaObject = (object: any): boolean => {
+    return (
+        typeof object.name === "string" &&
+        typeof object.description === "string" &&
+        typeof object.location === "object" &&
+        object.catagery
+    );
 }
 
 const CreateEventController = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -11,8 +17,20 @@ const CreateEventController = async (req: NextApiRequest, res: NextApiResponse) 
         return;
     }
 
-    if (isEventObject(req.body)) {
-        //res.status(200).send();
+    const parsedBody = JSON.parse(req.body);
+
+    if (isEventSchemaObject(parsedBody)) {
+        try {
+            const event: EventSchema = parsedBody;
+            const model: EventModel = new EventModel(event.name, event.description, event.catagery, event.location);
+    
+            await model.insert();
+
+            res.status(200).end();
+        }
+        catch (error) {
+            res.status(500).end();
+        }
     }
     else {
         res.status(400).end();

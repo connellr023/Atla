@@ -3,7 +3,7 @@ import Location from "./Location";
 
 interface EventSchema
 {
-    id: string,
+    id?: string,
     name: string,
     description: string,
     catagery: Categories;
