@@ -6,6 +6,8 @@ import dynamic from "next/dynamic";
 import styles from "@/styles/Map.module.scss";
 import MapProvider from "@/contexts/MapProvider";
 import MapContext from "@/contexts/MapContext";
+import CreditFooter from "@/components/CreditFooter";
+import MainLogo from "@/components/MainLogo";
 
 const MapElementDyn = dynamic(() => import("../components/MapElement"), { ssr: false });
 
@@ -72,6 +74,7 @@ class Map extends React.Component<any, any> {
           )}
         </MapContext.Consumer> */}
         <main className="flex-wrapper">
+          <MainLogo />
           <div className={styles.topMenuContainer}>
             {this.state.selectedIndex == 0 ? (
               <div className={styles.button_background_selected}>
@@ -93,7 +96,7 @@ class Map extends React.Component<any, any> {
                 return (
                   <div key={i} className={styles.button_background_selected}>
                     <div className={styles.icon_container_menu}>
-                      <img src={this.iconPaths[i]} alt=""></img>
+                      <img src={this.iconPaths[i + 1]} alt=""></img>
                     </div>
                     <div className={styles.text_container_menu}>{this.values[i]}</div>
                   </div>
@@ -133,6 +136,7 @@ class Map extends React.Component<any, any> {
           </div>
           <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} displayLocations={this.state.displayLocations} />
           {this.state.selectedIndex === 6 && this.state.past_select_location ? <AddEventForum /> : null}
+          <CreditFooter />
         </main>
       </MapProvider>
     );

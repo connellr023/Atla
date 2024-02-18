@@ -1,55 +1,60 @@
 @import "variables.scss";
 
 div.topMenuContainer {
-    position:absolute;
-    width:100%;
-    height:100px;
-    left:10px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+    top: 6px;
     background: transparent;
-    display: flex;
     z-index: 10;
-}
 
-div.button_background{
-    position: relative;
-    left: -7px;
-    margin-left: 4px;
-    width: auto;
-    height: 18px;
-    top: 20%;
-    background:white;
-    border-radius: 5px;
-    border: 1px solid black;
-    display: flex;
-    transition:filter 0.2s;
-    cursor: pointer;
+    $border-color: black;
+    $border-thickness: 2px;
+    $button-padding: 5px;
+    $border-radius: 6px;
+    $dist: 6px;
 
-    &:hover {
-        filter: invert(0.3);
+    div.button_background{
+        position: relative;
+        padding: $button-padding;
+        height: 18px;
+        background:white;
+        border-radius: $border-radius;
+        border: $border-thickness solid $border-color;
+        display: flex;
+        transition: filter 0.2s;
+        cursor: pointer;
+        margin: $dist;
+    
+        &:hover {
+            filter: invert(0.3);
+        }
+    }
+    
+    div.button_background_selected{
+        position:relative;
+        padding: $button-padding;
+        width:auto;
+        height: 18px;
+        background:white;
+        border-radius: $border-radius;
+        border: $border-thickness solid $border-color;
+        display:flex;
+        transition:filter 0.2s;
+        filter: invert(1);
+        margin: $dist;
     }
 }
 
-div.button_background_selected{
-    position:relative;
-    left:-7px;
-    margin-left:4px;
-    width:auto;
-    height:18px;
-    top:20%;
-    background:white;
-    border-radius:60px;
-    border:1px solid black;
-    display:flex;
-   transition:filter 0.2s;
-   filter: invert(1);
-}
-
 div.icon_container_menu{
+    $icon-size: 20px;
+
     position:relative;
-    left:5px;
-  
-    width:15px;
-    height:15px;
+    left: 5px;
+    width: $icon-size;
+    height: $icon-size;
     background:transparent;
 }
 
@@ -66,7 +71,7 @@ div.text_container_menu {
     height:15px;
     left:6px;
     font-family: $main-font;
-    font-size: 12px;
+    font-size: 14px;
     letter-spacing: 1px;
     white-space: nowrap;
     margin-right:12px;
