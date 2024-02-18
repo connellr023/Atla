@@ -1,13 +1,14 @@
 import { hostname } from "@/shared/utils";
 import React from "react";
 import Categories from "../shared/Categories";
-import AddEventForum from "@/components/AddEventForum";
+import AddEventForum from "@/components/AddEventModal";
 import dynamic from "next/dynamic";
 import styles from "@/styles/Map.module.scss";
 import MainLogo from "@/components/MainLogo";
 import CreditFooter from "@/components/CreditFooter";
 import EventSchema from "@/shared/EventSchema";
 import Location from "@/shared/Location";
+import SuccessModal from "@/components/SuccessModal";
 
 const MapElementDyn = dynamic(() => import("../components/MapElement"), { ssr: false });
 
@@ -69,14 +70,18 @@ class Map extends React.Component<any, any> {
 
   public updateState = (_e: any) =>{
     this.setState({ displayLocations: false });
-    this.setState({ selectedIndex: 0});
+    this.setState({ selectedIndex: 0 });
     this.setState({ past_select_location: false });
   }
 
   public handleAddEvent = () => {
     this.setState({ displayLocations: false });
-    this.setState({ selectedIndex: 0 });
+    this.setState({ selectedIndex: 7 });
     this.setState({ past_select_location: false });
+  }
+
+  public handleCloseModal = () => {
+    this.setState({ selectedIndex: 0 });
   }
 
   public render = () => {
@@ -145,7 +150,10 @@ class Map extends React.Component<any, any> {
           )}
         </div>
         <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} displayLocations={this.state.displayLocations} updateLocation={this.locationSelected} />
-        {this.state.selectedIndex === 6 && this.state.past_select_location ? <AddEventForum onExit={this.updateState} l={this.state.location} addEvent={this.handleAddEvent}/> : null}
+        {/* Yeah this is hacky but it is a hackathon ¯\_(ツ)_/¯ */}
+        {this.state.selectedIndex === 6 && this.state.past_select_location ? <AddEventForum onExit={this.updateState} location={this.state.location} addEvent={this.handleAddEvent}/> : <></>}
+        {this.state.selectedIndex === 7 ? <SuccessModal onExit={this.handleCloseModal} title="Event Created" message="Successfully created event!" /> : <></>}
+        {/* ^ Idk what these numbers even mean ^ */}
         <CreditFooter />
       </main>
     );

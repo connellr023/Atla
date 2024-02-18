@@ -1,7 +1,8 @@
 import React from "react";
-import styles from "@/styles/AddEventForum.module.scss";
+import styles from "@/styles/AddEventModal.module.scss";
 import Categories from "@/shared/Categories";
 import EventSchema from "@/shared/EventSchema";
+import Modal from "./Modal";
 
 interface AddEventForumState
 {
@@ -23,7 +24,7 @@ class AddEventForum extends React.Component<any, AddEventForumState>
         name: "",
         category: Categories.Festival,
         description: "",
-        location: props.l,
+        location: props.location,
       },
       message: ""
     };
@@ -105,63 +106,58 @@ class AddEventForum extends React.Component<any, AddEventForumState>
 
   public render = () => {
     return (
-      <div className={styles.adding_ammenity_container}>
-        <div className={styles.add_window}>
-          <div className={styles.adding_header}>
-            <div className={styles.add_window_exit} onClick={(e) => this.onExit(e)}>
-              <img src="/exit.png" alt="exit"></img>
-            </div>
-            <div className={styles.add_window_title}>{"Add Event"}</div>
-          </div>
-          <div className={styles.add_window_body}>
-            <div className={styles.first_row_container}>
-              <div className={styles.event_type_container}>
-                <div className={styles.event_name_text}>Type:</div>
-                <div className={styles.event_type_select}>
-                  <select
-                    className={styles.event_type}
-                    onChange={(e) => this.handleOnChange(e, 1)}
-                  >
-                    <option value={Categories.Festival}>{Categories.Festival}</option>
-                    <option value={Categories.Education}>{Categories.Education}</option>
-                    <option value={Categories.Agriculture}>{Categories.Agriculture}</option>
-                    <option value={Categories.Environment}>{Categories.Environment}</option>
-                    <option value={Categories.Healthcare}>{Categories.Healthcare}</option>
-                  </select>
-                </div>
-              </div>
-              <div className={styles.event_name_container}>
-                <div className={styles.event_name_text}>Event Name:</div>
-                <div className={styles.event_name_enter}>
-                  <input
-                    className={styles.event_name}
-                    value={this.state.event.name}
-                    onChange={(e) => this.handleOnChange(e, 0)}
-                  ></input>
-                </div>
+      <Modal onExit={this.onExit} title="Open Event">
+        <div className={styles.add_window_body}>
+          <div className={styles.first_row_container}>
+            <div className={styles.event_type_container}>
+              <div className={styles.event_name_text}>Type</div>
+              <br />
+              <div className={styles.event_type_select}>
+                <select
+                  className={styles.event_type}
+                  onChange={(e) => this.handleOnChange(e, 1)}
+                >
+                  <option value={Categories.Festival}>{Categories.Festival}</option>
+                  <option value={Categories.Education}>{Categories.Education}</option>
+                  <option value={Categories.Agriculture}>{Categories.Agriculture}</option>
+                  <option value={Categories.Environment}>{Categories.Environment}</option>
+                  <option value={Categories.Healthcare}>{Categories.Healthcare}</option>
+                </select>
               </div>
             </div>
-            <div className={styles.desc_row_container}>
-              <div className={styles.description_container}>
-                <div className={styles.house_type_text}>Description:</div>
-                <textarea
-                  className={styles.description}
-                  value={this.state.event.description}
-                  onChange={(e) => this.handleOnChange(e, 2)}
-                  rows={4}
-                  cols={43}
-                ></textarea>
+            <div className={styles.event_name_container}>
+              <div className={styles.event_name_text}>Event Name</div>
+              <br />
+              <div className={styles.event_name_enter}>
+                <input
+                  className={styles.event_name}
+                  value={this.state.event.name}
+                  onChange={(e) => this.handleOnChange(e, 0)}
+                ></input>
               </div>
             </div>
           </div>
-          <div className={styles.add_window_footer}>
-            <button className={styles.add_button_container} onClick={this.handleAddEvent}>
-              Add
-            </button>
+          <div className={styles.desc_row_container}>
+            <div className={styles.description_container}>
+              <div className={styles.house_type_text}>Description</div>
+              <br />
+              <textarea
+                className={styles.description}
+                value={this.state.event.description}
+                onChange={(e) => this.handleOnChange(e, 2)}
+                rows={4}
+                cols={43}
+              ></textarea>
+            </div>
           </div>
-          {this.state.message && <p>{this.state.message}</p>}
         </div>
-      </div>
+        {this.state.message && <><p>{this.state.message}</p><br /></>}
+        <div className={styles.add_window_footer}>
+          <button className={styles.add_button_container} onClick={this.handleAddEvent}>
+            Add
+          </button>
+        </div>
+      </Modal>
     );
   };
 }
