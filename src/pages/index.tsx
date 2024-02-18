@@ -58,7 +58,7 @@ class Map extends React.Component<any, any> {
     ];
   }
 
-  public setIndex = (_e: any, i: any) => {
+  public setIndex = (i: any) => {
     this.setState({ selectedIndex: i });
   };
 
@@ -68,7 +68,7 @@ class Map extends React.Component<any, any> {
     this.setState({ past_select_location: true });
   }
 
-  public updateState = (_e: any) =>{
+  public updateState = () =>{
     this.setState({ displayLocations: false });
     this.setState({ selectedIndex: 0 });
     this.setState({ past_select_location: false });
@@ -99,7 +99,7 @@ class Map extends React.Component<any, any> {
               <div className={styles.text_container_menu}>{"View All"}</div>
             </div>
           ) : (
-            <div className={styles.button_background} onClick={(e) => this.setIndex(e, 0)}>
+            <div className={styles.button_background} onClick={() => { this.setIndex(0); this.setState({ displayLocations: false }) }}>
               <div className={styles.icon_container_menu}>
                 <img src={this.iconPaths[0]} alt=""></img>
               </div>
@@ -107,38 +107,38 @@ class Map extends React.Component<any, any> {
             </div>
           )}
           {this.keys.map((_icon, i) => {
-            if (i + 1 == this.state.selectedIndex) {
+            if (i + 1 === this.state.selectedIndex) {
               return (
                 <div key={i} className={styles.button_background_selected}>
                   <div className={styles.icon_container_menu}>
-                    <img src={this.iconPaths[i+1]} alt=""></img>
+                    <img src={this.iconPaths[i + 1]} alt="" />
                   </div>
                   <div className={styles.text_container_menu}>{this.values[i]}</div>
                 </div>
               );
             } else {
               return (
-                <div key={i} className={styles.button_background} onClick={(e) => this.setIndex(e, i + 1)}>
+                <div key={i} className={styles.button_background} onClick={() => { this.setIndex(i + 1); this.setState({ displayLocations: false }) }}>
                   <div className={styles.icon_container_menu}>
-                    <img src={this.iconPaths[i + 1]} alt=""></img>
+                    <img src={this.iconPaths[i + 1]} alt="" />
                   </div>
                   <div className={styles.text_container_menu}>{this.values[i]}</div>
                 </div>
               );
             }
           })}
-          {this.state.selectedIndex == 6 ? (
+          {this.state.selectedIndex === 6 ? (
             <div className={styles.button_background_selected}>
               <div className={styles.icon_container_menu}>
-                <img src={this.iconPaths[6]} alt=""></img>
+                <img src={this.iconPaths[6]} alt="" />
               </div>
               <div className={styles.text_container_menu}>{"Add Event"}</div>
             </div>
           ) : (
             <div
               className={styles.button_background}
-              onClick={(e) => {
-                this.setIndex(e, 6);
+              onClick={() => {
+                this.setIndex(6);
                 this.setState({ displayLocations: true });
               }}
             >
