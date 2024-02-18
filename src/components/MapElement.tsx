@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer,Marker,Icon } from 'react-leaflet'
+import { MapContainer, TileLayer,Marker,Popup } from 'react-leaflet'
 import React from "react";
 import styles from "@/styles/MapElement.module.scss";
 
@@ -46,21 +46,28 @@ class MapElement extends React.Component<MapComponentProps> {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {this.state.displayLocations ? locations.map((thing,c) =>{
-                                    return(
-                                     <Marker  icon={festival}  position={[thing.longitude,thing.latitude]} eventHandlers={{
-                                        click: (e) => {
-                                            var te = [0,c];
-                                            //this.forceUpdate();
-                                            //this.setState({selectedAmmenity:te});
-                                            //this.setState({selectedTopIndex:0});
-                                            //this.setState({menuColapsed:false})
-                                            console.log("selecting house")
-                                            //this.forceUpdate();
-                                        },
-                                    }}/>
-                                    )
-                                    
-                                }): null}
+              console.log(thing)
+                return(
+                  <Marker  icon={festival}  position={[thing.longitude,thing.latitude]} eventHandlers={{
+                    click: (e) => {
+                        var te = [0,c];
+                        //this.forceUpdate();
+                        //this.setState({selectedAmmenity:te});
+                        //this.setState({selectedTopIndex:0});
+                        //this.setState({menuColapsed:false})
+                        //console.log("selecting house")
+                        //this.forceUpdate();
+                    },
+                }}>
+                    <Popup
+                      
+                    >
+                      {thing.name}
+                    </Popup>
+                </Marker>
+                )
+                
+            }): null}
         </MapContainer>
 
 
