@@ -11,6 +11,7 @@ const MapElementDyn = dynamic(() => import("../components/MapElement"), { ssr: f
 class Map extends React.Component{
   private keys;
   private values;
+  private iconPaths;
   constructor(props:any){
     super(props);
     this.state = {
@@ -18,10 +19,10 @@ class Map extends React.Component{
     }
     this.keys = Object.keys(Categories);
     this.values = Object.values(Categories);
+    this.iconPaths = ['/festival.png', '/education.png', '/environment.png', '/healthcare.png', '/agriculture.png']
    //this.selectedIndex = 0;
     //.sideIcons = [icon,icon,icon,icon,icon,icon,icon];
   }
-
   public render = () => {
     
     return (
@@ -32,7 +33,7 @@ class Map extends React.Component{
                     return(
                     <div className = {styles.button_background_selected}>
                         <div className = {styles.icon_container_menu}>
-                        <img src = {'/favicon.ico'}></img>
+                        <img src = {this.iconPaths[i]}></img>
                         </div>
                         <div className = {styles.text_container_menu}>
                     {Object.values(Categories)[i]}
@@ -41,9 +42,11 @@ class Map extends React.Component{
                 }else{
                 return(
                 <div className = {styles.button_background} onClick = {(e) =>{
-                     this.setState({selectedIndex:i})}}>
+                     this.setState({selectedIndex:i})
+                     
+                     }}>
                     <div className = {styles.icon_container_menu}>
-                    <img src = '/favicon.ico'></img>
+                    <img src = {this.iconPaths[i]}></img>
                     </div>
                     <div className = {styles.text_container_menu}>
                     {Object.values(Categories)[i]}
