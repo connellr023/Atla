@@ -5,6 +5,8 @@ export interface MapContextProps
 {
     selectedLocation: Location
     updateSelectedLocation: (newLocation: Location) => void
+    inAddEvent:boolean
+    updateInAddEvent: (newState:boolean) => void
 }
 
 const MapContext = React.createContext<MapContextProps | null>(null);

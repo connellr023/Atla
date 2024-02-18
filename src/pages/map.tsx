@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import styles from "@/styles/Map.module.scss";
 import MapProvider from "@/contexts/MapProvider";
 import MapContext from "@/contexts/MapContext";
+import Location from "@/shared/Location";
 
 const MapElementDyn = dynamic(() => import("../components/MapElement"), { ssr: false });
 
@@ -37,7 +38,8 @@ class Map extends React.Component<any, any> {
     this.state = {
       selectedIndex: 0,
       past_select_location: false,
-      displayLocations: false
+      displayLocations: false,
+      location:Location
     };
 
     this.keys = Object.keys(Categories);
@@ -54,11 +56,25 @@ class Map extends React.Component<any, any> {
   }
 
   public setIndex = (e: any, i: any) => {
+   
     this.setState({ selectedIndex: i });
   };
 
-  public locationSelected(e: any, i: any) {
-    console.log("location selected");
+  public locationSelected = (i: any) => {
+    this.setState({location: i});
+    console.log("location selected",i);
+    this.setState({displayLocations:false});
+    this.setState({past_select_location:true});
+  }
+  updateState = (e:any) =>{
+    this.setState({displayLocations:false})
+    this.setState({selectedIndex:0});
+
+  }
+  handleAddEvent = (e:any, r:any) => {
+      console.log("event:", r)
+      this.setState({displayLocations:false})
+    this.setState({selectedIndex:0});
   }
 
   public render = () => {
@@ -66,11 +82,7 @@ class Map extends React.Component<any, any> {
 
     return (
       <MapProvider>
-        <MapContext.Consumer>
-          {(context) => (
-            <button onClick={() => console.log(context)}>CLICK!</button>
-          )}
-        </MapContext.Consumer>
+        
         <main className="flex-wrapper">
           <div className={styles.topMenuContainer}>
             {this.state.selectedIndex == 0 ? (
@@ -93,7 +105,7 @@ class Map extends React.Component<any, any> {
                 return (
                   <div key={i} className={styles.button_background_selected}>
                     <div className={styles.icon_container_menu}>
-                      <img src={this.iconPaths[i]} alt=""></img>
+                      <img src={this.iconPaths[i+1]} alt=""></img>
                     </div>
                     <div className={styles.text_container_menu}>{this.values[i]}</div>
                   </div>
@@ -131,12 +143,14 @@ class Map extends React.Component<any, any> {
               </div>
             )}
           </div>
-          <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} displayLocations={this.state.displayLocations} />
-          {this.state.selectedIndex === 6 && this.state.past_select_location ? <AddEventForum /> : null}
+          <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} displayLocations={this.state.displayLocations} updateLocation = {this.locationSelected} />
+          {this.state.selectedIndex === 6 && this.state.past_select_location ? <AddEventForum onExit = {this.updateState} l = {this.state.location} addEvent = {this.handleAddEvent}/> : null}
         </main>
       </MapProvider>
     );
   };
 }
+
+
 
 export default Map;

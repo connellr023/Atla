@@ -15,6 +15,11 @@ interface MapComponentProps
 }
 
 class MapElement extends React.Component<MapComponentProps> {
+  private locationSelect
+  constructor(props:any){
+    super(props)
+    this.locationSelect = props.updateLocation
+  }
   public render = () => {
     const { locations, initialPosition, displayLocations} = this.props;
 
@@ -38,7 +43,7 @@ class MapElement extends React.Component<MapComponentProps> {
                 />
                 {displayLocations ? locations.map((location, i) =>{
                   return (
-                    <Marker key={i} eventHandlers={{ click: () => context?.updateSelectedLocation(location) }} icon={festival} position={[location.longitude, location.latitude]}>
+                    <Marker key={i} eventHandlers={{ click: () => this.locationSelect(location) }} icon={festival} position={[location.longitude, location.latitude]}>
                       <Popup>
                         {location.name}
                       </Popup>
