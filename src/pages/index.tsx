@@ -69,11 +69,14 @@ class Map extends React.Component<any, any> {
   public updateState = (e: any) =>{
     this.setState({displayLocations:false})
     this.setState({selectedIndex:0});
+    this.setState({past_select_location:false})
   }
 
   public handleAddEvent = (e:any, r:any) => {
+    console.log(r)
     this.setState({displayLocations:false})
     this.setState({selectedIndex:0});
+    this.setState({past_select_location:false})
   }
 
   public render = () => {
