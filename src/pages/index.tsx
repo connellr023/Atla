@@ -50,7 +50,7 @@ class Map extends React.Component<any, any>
       displayEventsIndex: 0,
       events: props.events,
       selectedLocation: {},
-      selectedEvent: {}
+      selectedEvent: {},
       inWelcomePage: true
     };
 
