@@ -6,7 +6,7 @@ interface EventSchema
     id?: string,
     name: string,
     description: string,
-    catagery: Categories;
+    category: Categories;
     location: Location
 }
 

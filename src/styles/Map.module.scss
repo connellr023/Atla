@@ -1,31 +1,34 @@
-div.topMenuContainer{
+@import "variables.scss";
+
+div.topMenuContainer {
     position:absolute;
     width:100%;
     height:100px;
     left:10px;
-    background:transparent;
-    z-index: 2000;
-    display:flex;
-
+    background: transparent;
+    display: flex;
+    z-index: 10;
 }
 
 div.button_background{
-    position:relative;
-    left:-7px;
-    margin-left:4px;
-    width:auto;
-    height:18px;
-    top:20%;
+    position: relative;
+    left: -7px;
+    margin-left: 4px;
+    width: auto;
+    height: 18px;
+    top: 20%;
     background:white;
-    border-radius:60px;
-    border:1px solid black;
-    display:flex;
+    border-radius: 5px;
+    border: 1px solid black;
+    display: flex;
     transition:filter 0.2s;
-    cursor:pointer;
+    cursor: pointer;
+
+    &:hover {
+        filter: invert(0.3);
+    }
 }
-div.button_background:hover{
-    filter:invert(0.3);
-}
+
 div.button_background_selected{
     position:relative;
     left:-7px;
@@ -40,6 +43,7 @@ div.button_background_selected{
    transition:filter 0.2s;
    filter: invert(1);
 }
+
 div.icon_container_menu{
     position:relative;
     left:5px;
@@ -49,18 +53,19 @@ div.icon_container_menu{
     background:transparent;
 }
 
-div.icon_container_menu img{
+div.icon_container_menu img {
     position:relative;
     width:12px;
     height:12px;
 }
-div.text_container_menu{
+
+div.text_container_menu {
     position:relative;
     background:transparent;
     width:auto;
     height:15px;
     left:6px;
-    font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+    font-family: $main-font;
     font-size: 12px;
     letter-spacing: 1px;
     white-space: nowrap;

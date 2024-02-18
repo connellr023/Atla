@@ -22,7 +22,7 @@ const CreateEventController = async (req: NextApiRequest, res: NextApiResponse) 
     if (isEventSchemaObject(parsedBody)) {
         try {
             const event: EventSchema = parsedBody;
-            const model: EventModel = new EventModel(event.name, event.description, event.catagery, event.location);
+            const model: EventModel = new EventModel(event.name, event.description, event.category, event.location);
     
             await model.insert();
 
