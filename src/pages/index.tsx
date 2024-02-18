@@ -103,7 +103,7 @@ class Map extends React.Component<any, any>
   
     return (
       <main className="flex-wrapper">
-        {this.state.inWelcomePage ? <WelcomePage onExit={this.handleWelcomeExit} title="Welcome to Atla" message="Your Hub for Volunteering Events. Alta aims to bring the Calgarian community together by providing a centralized platform to post and view volunteering events" ></WelcomePage>:null}
+       
 
         <MainLogo />
         <div className={styles.topMenuContainer}>
@@ -171,6 +171,7 @@ class Map extends React.Component<any, any>
         {this.state.selectedIndex === 7 ? <SuccessModal onExit={this.handleCloseModal} title="Event Created" message="Successfully created event!" /> : <></>}
         {/* ^ Idk what these numbers even mean ^ */}
         <CreditFooter />
+        {this.state.inWelcomePage ? <WelcomePage onExit={this.handleWelcomeExit} title="Welcome to Atla" message="Your Hub for Volunteering Events. Alta aims to bring the Calgarian community together by providing a centralized platform to post and view volunteering events" ></WelcomePage>:null}
       </main>
     );
   };
