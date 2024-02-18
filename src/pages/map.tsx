@@ -30,7 +30,10 @@ class Map extends React.Component<any, any>
 {
   private keys;
 
-  constructor(props: any) {
+  private values;
+  private iconPaths;
+  constructor(props:any){
+
     super(props);
 
     this.state = {
@@ -38,8 +41,12 @@ class Map extends React.Component<any, any>
     }
 
     this.keys = Object.keys(Categories);
-  }
 
+    this.values = Object.values(Categories);
+    this.iconPaths = ['/festival.png', '/education.png', '/environment.png', '/healthcare.png', '/agriculture.png']
+   //this.selectedIndex = 0;
+    //.sideIcons = [icon,icon,icon,icon,icon,icon,icon];
+  }
   public render = () => {
     const { locations } = this.props;
 
@@ -50,22 +57,24 @@ class Map extends React.Component<any, any>
                 if (i === this.state.selectedIndex){
                     return(
                     <div key={i} className = {styles.button_background_selected}>
-                      <div className = {styles.icon_container_menu}>
-                        <img src = {'/favicon.ico'}></img>
-                      </div>
-                      <div className = {styles.text_container_menu}>
-                        {Object.values(Categories)[i]}
-                      </div>
+                        <div className = {styles.icon_container_menu}>
+                        <img src = {this.iconPaths[i]}></img>
+                        </div>
+                        <div className = {styles.text_container_menu}>
+                    {Object.values(Categories)[i]}
                     </div>
                   )
                 }else{
-                return (
-                <div key={i} className={styles.button_background} onClick = {(e) =>{
-                  this.setState({selectedIndex:i})}}>
-                  <div className = {styles.icon_container_menu}>
-                    <img src = '/favicon.ico'></img>
-                  </div>
-                  <div className = {styles.text_container_menu}>
+
+                return(
+                <div className = {styles.button_background} onClick = {(e) =>{
+                     this.setState({selectedIndex:i})
+                     
+                     }}>
+                    <div className = {styles.icon_container_menu}>
+                    <img src = {this.iconPaths[i]}></img>
+                    </div>
+                    <div className = {styles.text_container_menu}>
                     {Object.values(Categories)[i]}
                   </div> 
                 </div>
