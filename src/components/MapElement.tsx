@@ -28,6 +28,9 @@ class MapElement extends React.Component<MapComponentProps>
 
   constructor(props:any){
     super(props)
+    this.state = {
+      
+    }
     this.locationSelect = props.updateLocation
   }
 

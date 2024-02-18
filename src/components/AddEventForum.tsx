@@ -57,11 +57,11 @@ class AddEventForum extends React.Component<any, any>
                             <div className = {styles.event_type_select}>
                                 <select className={styles.event_type} value = {this.state.type} onChange = {(e) => this.handleOnChange(e,1)}>
                                   
-                                            <option value={0}>{Categories.Festival}</option>
-                                            <option value={1}>{Categories.Education}</option>
-                                            <option value={4}>{Categories.Agriculture}</option>
-                                            <option value={2}>{Categories.Environment}</option>
-                                            <option value={3}>{Categories.Healthcare}</option>
+                                            <option value={Categories.Festival}>{Categories.Festival}</option>
+                                            <option value={Categories.Education}>{Categories.Education}</option>
+                                            <option value={Categories.Agriculture}>{Categories.Agriculture}</option>
+                                            <option value={Categories.Environment}>{Categories.Environment}</option>
+                                            <option value={Categories.Healthcare}>{Categories.Healthcare}</option>
                                       
                                    
                                 </select>
