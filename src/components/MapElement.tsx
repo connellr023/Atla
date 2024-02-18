@@ -26,16 +26,13 @@ class MapElement extends React.Component<MapComponentProps>
 
   private locationSelect;
 
-  constructor(props:any){
+  constructor(props: any){
     super(props)
-    this.state = {
-      
-    }
     this.locationSelect = props.updateLocation
   }
 
   public render = () => {
-    const { locations, initialPosition, displayLocations} = this.props;
+    const { locations, initialPosition, displayLocations } = this.props;
 
     const festival = new L.Icon({
       className:"marker-unselected",

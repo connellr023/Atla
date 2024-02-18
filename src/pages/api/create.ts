@@ -18,6 +18,7 @@ const CreateEventController = async (req: NextApiRequest, res: NextApiResponse) 
     }
 
     const parsedBody = JSON.parse(req.body);
+    console.log(parsedBody);
 
     if (isEventSchemaObject(parsedBody)) {
         try {

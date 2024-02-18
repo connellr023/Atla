@@ -4,9 +4,10 @@ import Categories from "../shared/Categories";
 import AddEventForum from "@/components/AddEventForum";
 import dynamic from "next/dynamic";
 import styles from "@/styles/Map.module.scss";
-import Location from "@/shared/Location";
 import MainLogo from "@/components/MainLogo";
 import CreditFooter from "@/components/CreditFooter";
+import EventSchema from "@/shared/EventSchema";
+import Location from "@/shared/Location";
 
 const MapElementDyn = dynamic(() => import("../components/MapElement"), { ssr: false });
 
@@ -56,27 +57,26 @@ class Map extends React.Component<any, any> {
     ];
   }
 
-  public setIndex = (e: any, i: any) => {
+  public setIndex = (_e: any, i: any) => {
     this.setState({ selectedIndex: i });
   };
 
   public locationSelected = (location: any) => {
-    this.setState({location: location});
-    this.setState({displayLocations: false});
-    this.setState({past_select_location: true});
+    this.setState({ location: location });
+    this.setState({ displayLocations: false });
+    this.setState({ past_select_location: true });
   }
 
-  public updateState = (e: any) =>{
-    this.setState({displayLocations:false})
-    this.setState({selectedIndex:0});
-    this.setState({past_select_location:false})
+  public updateState = (_e: any) =>{
+    this.setState({ displayLocations: false });
+    this.setState({ selectedIndex: 0});
+    this.setState({ past_select_location: false });
   }
 
-  public handleAddEvent = (e:any, r:any) => {
-    console.log(r)
-    this.setState({displayLocations:false})
-    this.setState({selectedIndex:0});
-    this.setState({past_select_location:false})
+  public handleAddEvent = () => {
+    this.setState({ displayLocations: false });
+    this.setState({ selectedIndex: 0 });
+    this.setState({ past_select_location: false });
   }
 
   public render = () => {
@@ -145,7 +145,7 @@ class Map extends React.Component<any, any> {
           )}
         </div>
         <MapElementDyn initialPosition={[51.049999, -114.066666]} locations={locations} displayLocations={this.state.displayLocations} updateLocation={this.locationSelected} />
-        {this.state.selectedIndex === 6 && this.state.past_select_location ? <AddEventForum onExit = {this.updateState} l = {this.state.location} addEvent = {this.handleAddEvent}/> : null}
+        {this.state.selectedIndex === 6 && this.state.past_select_location ? <AddEventForum onExit={this.updateState} l={this.state.location} addEvent={this.handleAddEvent}/> : null}
         <CreditFooter />
       </main>
     );

@@ -1,103 +1,169 @@
 import React from "react";
-import styles from "@/styles/AddEvent.module.scss";
+import styles from "@/styles/AddEventForum.module.scss";
 import Categories from "@/shared/Categories";
+import EventSchema from "@/shared/EventSchema";
 
-class AddEventForum extends React.Component<any, any>
+interface AddEventForumState
 {
-    private values;
-    private onExit;
-    private addEvent;
-    constructor(props:any){
-        super(props);
+  event: EventSchema,
+  message: string
+}
 
-        this.state = {
-            nameEvent: "",
-            category: Categories.Festival,
-            description:"",
-            location: props.l
-        }
-        this.values = Object(Categories).values
-        this.onExit = props.onExit
-        this.addEvent = props.addEvent
-       
-    }
-    handleOnChange = (e: any, i: any) =>{
-        if (i ==0){//event name
-            this.setState({nameEvent:e.target.value})
-        }else if(i ==1){//category
-            this.setState({category:e.target.value})
-        }else if (i==2){//description
-            this.setState({description:e.target.value})
-        }
-    }
-    handleSubmitClick = (e: any) =>{
-        console.log(this.state)
+class AddEventForum extends React.Component<any, AddEventForumState>
+{
+  private onExit;
+  private addEvent;
+  private timerId: number | null;
 
-    }
-    changeToNotAdding (){
+  constructor(props: any) {
+    super(props);
 
-    }
-    public render = () => {
-        return(
-            <div className = {styles.adding_ammenity_container}>
-            <div className = {styles.add_window}>
-                    <div className = {styles.adding_header}>
-                        <div className = {styles.add_window_exit} onClick = {(e) => this.onExit(e)}>
-                            <img src = '/exit.png'></img>
-                        </div>
-                        <div className = {styles.add_window_title}>
-                        {'Add Event'}
-                        </div>
-                    </div>
-                    
-                    <div className = {styles.add_window_body}>
-                        <div className = {styles.first_row_container}>
-                        <div className = {styles.event_type_container}>
-                            <div className = {styles.event_name_text}>Type:</div>
-                            <div className = {styles.event_type_select}>
-                                <select className={styles.event_type} value = {this.state.type} onChange = {(e) => this.handleOnChange(e,1)}>
-                                  
-                                            <option value={Categories.Festival}>{Categories.Festival}</option>
-                                            <option value={Categories.Education}>{Categories.Education}</option>
-                                            <option value={Categories.Agriculture}>{Categories.Agriculture}</option>
-                                            <option value={Categories.Environment}>{Categories.Environment}</option>
-                                            <option value={Categories.Healthcare}>{Categories.Healthcare}</option>
-                                      
-                                   
-                                </select>
-                            
-                            </div>
-                            </div>
-                             <div className = {styles.event_name_container}>
-                             <div className = {styles.event_name_text}>Event Name:</div>
-                             <div className = {styles.event_name_enter}>
-                             <input className = {styles.event_name} value = {this.state.nameEvent} onChange = {(e) => this.handleOnChange(e,0)}></input>
-                             </div>
-                        </div>
-                        </div>
+    this.state = {
+      event: {
+        name: "",
+        category: Categories.Festival,
+        description: "",
+        location: props.l,
+      },
+      message: ""
+    };
+    
+    this.onExit = props.onExit;
+    this.addEvent = props.addEvent;
+    this.timerId = null;
+  }
 
-                       <div className = {styles.desc_row_container}>
-                       <div className = {styles.description_container}>
-                       <div className = {styles.house_type_text}>Description:</div>
-                        <textarea className = {styles.description} value = {this.state.des} onChange = {(e) => this.handleOnChange(e,2)} rows={4} cols={43}></textarea>
-                        </div>
-                       </div>
-                    
-                    </div>
-                    <div className = {styles.add_window_footer}>
-                        <button className = {styles.add_button_container} onClick = {(e) => this.addEvent(e,this.state)}>
-                        add
-                        </button>
-                    </div>
-                    
-                    
+  public componentDidUpdate = (_prevProps: {}, prevState: AddEventForumState) => {
+    if (this.state.message !== prevState.message) {
+      if (this.timerId) {
+        window.clearInterval(this.timerId);
+      }
+
+      this.timerId = window.setTimeout(() => {
+        this.setState({
+          message: ""
+        });
+      }, this.state.message.length * 200);
+    }
+  }
+
+  public componentWillUnmount(): void {
+    if (this.timerId) {
+      window.clearInterval(this.timerId);
+    }
+  }
+
+  private handleOnChange = (e: any, i: any) => {
+    switch (i) {
+      case 0: // event name
+        this.setState({ event: {...this.state.event, name: e.target.value }, message: this.state.message });
+        break;
+      case 1: // category
+      this.setState({ event: {...this.state.event, category: e.target.value }, message: this.state.message });
+        break;
+      case 2: // description
+        this.setState({ event: {...this.state.event, description: e.target.value }, message: this.state.message });
+        break;
+      default:
+        break;
+    }
+  }
+
+  private handleAddEvent = async () => {
+    if (
+      this.state.event.name.length === 0 ||
+      this.state.event.description.length === 0
+    )
+    {
+      this.displayError("Name or description too short.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/create", {
+        method: "POST",
+        body: JSON.stringify(this.state.event)
+      });
+
+      if (response.ok) {
+        this.addEvent();
+      }
+      else {
+        this.displayError(`Received status code: ${response.status}`);
+      }
+    }
+    catch {
+      this.displayError("Failed to parse response.");
+    }
+  }
+
+  private displayError = (message: string) => {
+    this.setState({
+      message: message
+    });
+  }
+
+  public render = () => {
+    return (
+      <div className={styles.adding_ammenity_container}>
+        <div className={styles.add_window}>
+          <div className={styles.adding_header}>
+            <div className={styles.add_window_exit} onClick={(e) => this.onExit(e)}>
+              <img src="/exit.png" alt="exit"></img>
             </div>
+            <div className={styles.add_window_title}>{"Add Event"}</div>
+          </div>
+          <div className={styles.add_window_body}>
+            <div className={styles.first_row_container}>
+              <div className={styles.event_type_container}>
+                <div className={styles.event_name_text}>Type:</div>
+                <div className={styles.event_type_select}>
+                  <select
+                    className={styles.event_type}
+                    onChange={(e) => this.handleOnChange(e, 1)}
+                  >
+                    <option value={Categories.Festival}>{Categories.Festival}</option>
+                    <option value={Categories.Education}>{Categories.Education}</option>
+                    <option value={Categories.Agriculture}>{Categories.Agriculture}</option>
+                    <option value={Categories.Environment}>{Categories.Environment}</option>
+                    <option value={Categories.Healthcare}>{Categories.Healthcare}</option>
+                  </select>
+                </div>
+              </div>
+              <div className={styles.event_name_container}>
+                <div className={styles.event_name_text}>Event Name:</div>
+                <div className={styles.event_name_enter}>
+                  <input
+                    className={styles.event_name}
+                    value={this.state.event.name}
+                    onChange={(e) => this.handleOnChange(e, 0)}
+                  ></input>
+                </div>
+              </div>
+            </div>
+            <div className={styles.desc_row_container}>
+              <div className={styles.description_container}>
+                <div className={styles.house_type_text}>Description:</div>
+                <textarea
+                  className={styles.description}
+                  value={this.state.event.description}
+                  onChange={(e) => this.handleOnChange(e, 2)}
+                  rows={4}
+                  cols={43}
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <div className={styles.add_window_footer}>
+            <button className={styles.add_button_container} onClick={this.handleAddEvent}>
+              Add
+            </button>
+          </div>
+          {this.state.message && <p>{this.state.message}</p>}
         </div>
-        )
-       
-    }
-
-
+      </div>
+    );
+  };
 }
 
 export default AddEventForum;
