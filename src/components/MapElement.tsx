@@ -5,6 +5,7 @@ import React from "react";
 import styles from "@/styles/MapElement.module.scss";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import EventSchema from "@/shared/EventSchema";
 
 interface MapComponentProps
 {
@@ -57,48 +58,48 @@ class MapElement extends React.Component<MapComponentProps, any>
       className:"marker-unselected",
       iconUrl: "/location.png",
       iconRetinaUrl: "/location.png",
-      popupAnchor:  [-0, -0],
-      iconSize: [15,15]
+      popupAnchor: [-0, -0],
+      iconSize: [15, 15]
     });
 
     const festival = new L.Icon({
       className:"marker-unselected",
       iconUrl: "/festival.png",
       iconRetinaUrl: "/festival.png",
-      popupAnchor:  [-0, -0],
-      iconSize: [15,15]
+      popupAnchor: [-0, -0],
+      iconSize: [15, 15]
     });
 
     const healthcare = new L.Icon({
       className:"marker-unselected",
       iconUrl: "/healthcare.png",
       iconRetinaUrl: "/healthcare.png",
-      popupAnchor:  [-0, -0],
-      iconSize: [15,15]
+      popupAnchor: [-0, -0],
+      iconSize: [15, 15]
     });
 
     const agriculture = new L.Icon({
       className:"marker-unselected",
       iconUrl: "/agriculture.png",
       iconRetinaUrl: "/agriculture.png",
-      popupAnchor:  [-0, -0],
-      iconSize: [15,15]
+      popupAnchor: [-0, -0],
+      iconSize: [15, 15]
     });
 
     const environment = new L.Icon({
       className:"marker-unselected",
       iconUrl: "/environment.png",
       iconRetinaUrl: "/environment.png",
-      popupAnchor:  [-0, -0],
-      iconSize: [15,15]
+      popupAnchor: [-0, -0],
+      iconSize: [15, 15]
     });
 
     const education = new L.Icon({
       className:"marker-unselected",
       iconUrl: "/education.png",
       iconRetinaUrl: "/education.png",
-      popupAnchor:  [-0, -0],
-      iconSize: [15,15]
+      popupAnchor: [-0, -0],
+      iconSize: [15, 15]
     });
    
     return (
@@ -109,8 +110,7 @@ class MapElement extends React.Component<MapComponentProps, any>
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {displayLocations ? locations.map((location, i) =>{
-              
+            {displayLocations ? locations.map((location, i) => {
               return (
                 <Marker riseOnHover={true} key={i} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut, click: () => this.locationSelect(location) }} icon={loc} position={[location.longitude, location.latitude]}>
                   <Popup className={styles.popup}>
@@ -118,54 +118,50 @@ class MapElement extends React.Component<MapComponentProps, any>
                   </Popup>
                 </Marker>
               )
-            }): events.map((ev: any, it: any) =>{
-               if (this.state.categoryState == 1 && ev.category=="Festival" || ev.category=="Festival" && this.state.categoryState == 0){
-                  return(
-                    <Marker riseOnHover={true} key={it} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut }} icon={festival} position={[ev.location.longitude, ev.location.latitude]}>
-                      <Popup className={styles.popup}>
-                        {ev.location.name}
-                      </Popup>
-                    </Marker>
-                  )
-
-                }else if (this.state.categoryState == 2 && ev.category=="Education" || ev.category=="Education" && this.state.categoryState == 0){
-                  return(
-                    <Marker riseOnHover={true} key={it} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut }} icon={education} position={[ev.location.longitude, ev.location.latitude]}>
-                      <Popup className={styles.popup}>
-                        {ev.location.name}
-                      </Popup>
-                    </Marker>
-                  )
-
-                }else if (this.state.categoryState == 3 && ev.category=="Environment" ||ev.category=="Environment" && this.state.categoryState == 0){
-                  return(
-                    <Marker riseOnHover={true} key={it} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut }} icon={environment} position={[ev.location.longitude, ev.location.latitude]}>
-                      <Popup className={styles.popup}>
-                        {ev.location.name}
-                      </Popup>
-                    </Marker>
-                  )
-
-                }else if (this.state.categoryState == 4 && ev.category=="Healthcare" || ev.category=="Healthcare"&& this.state.categoryState == 0){
-                  return(
-                    <Marker riseOnHover={true} key={it} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut }} icon={healthcare} position={[ev.location.longitude, ev.location.latitude]}>
-                      <Popup className={styles.popup}>
-                        {ev.location.name}
-                      </Popup>
-                    </Marker>
-                  )
-
-                }else if (this.state.categoryState == 5 && ev.category=="Agriculture" || ev.category=="Agriculture"&&this.state.categoryState == 0){
-                  return(
-                    <Marker riseOnHover={true} key={it} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut }} icon={agriculture} position={[ev.location.longitude, ev.location.latitude]}>
-                      <Popup className={styles.popup}>
-                        {ev.location.name}
-                      </Popup>
-                    </Marker>
-                  )
-                }
+            }): events.map((ev: EventSchema, it: any) =>{
+              if (this.state.categoryState == 1 && ev.category=="Festival" || ev.category=="Festival" && this.state.categoryState == 0){
+                return(
+                  <Marker riseOnHover={true} key={it} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut }} icon={festival} position={[ev.location.longitude, ev.location.latitude]}>
+                    <Popup className={styles.popup}>
+                      {ev.name}
+                    </Popup>
+                  </Marker>
+                )
+              } else if (this.state.categoryState == 2 && ev.category=="Education" || ev.category=="Education" && this.state.categoryState == 0){
+                return(
+                  <Marker riseOnHover={true} key={it} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut }} icon={education} position={[ev.location.longitude, ev.location.latitude]}>
+                    <Popup className={styles.popup}>
+                      {ev.name}
+                    </Popup>
+                  </Marker>
+                )
+              } else if (this.state.categoryState == 3 && ev.category=="Environment" ||ev.category=="Environment" && this.state.categoryState == 0){
+                return(
+                  <Marker riseOnHover={true} key={it} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut }} icon={environment} position={[ev.location.longitude, ev.location.latitude]}>
+                    <Popup className={styles.popup}>
+                      {ev.name}
+                    </Popup>
+                  </Marker>
+                )
+              } else if (this.state.categoryState == 4 && ev.category=="Healthcare" || ev.category=="Healthcare"&& this.state.categoryState == 0){
+                return(
+                  <Marker riseOnHover={true} key={it} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut }} icon={healthcare} position={[ev.location.longitude, ev.location.latitude]}>
+                    <Popup className={styles.popup}>
+                      {ev.name}
+                    </Popup>
+                  </Marker>
+                )
+              } else if (this.state.categoryState == 5 && ev.category=="Agriculture" || ev.category=="Agriculture"&&this.state.categoryState == 0){
+                return(
+                  <Marker riseOnHover={true} key={it} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut }} icon={agriculture} position={[ev.location.longitude, ev.location.latitude]}>
+                    <Popup className={styles.popup}>
+                      {ev.name}
+                    </Popup>
+                  </Marker>
+                )
+              }
             })
-            }
+          }
         </MapContainer>
       </div>
     );
