@@ -7,7 +7,7 @@ const isEventSchemaObject = (object: any): boolean => {
         typeof object.name === "string" &&
         typeof object.description === "string" &&
         typeof object.location === "object" &&
-        object.catagery
+        object.category
     );
 }
 
