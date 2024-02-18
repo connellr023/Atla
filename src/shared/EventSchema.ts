@@ -1,12 +1,11 @@
 import Categories from "./Categories";
 import Location from "./Location";
-import UserSchema from "./UserSchema";
 
 interface EventSchema
 {
-    id: number,
+    id?: string,
     name: string,
-    coordinator: UserSchema,
+    description: string,
     catagery: Categories;
     location: Location
 }
