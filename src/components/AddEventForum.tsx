@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "@/styles/AddEvent.module.scss";
 import Categories from "@/shared/Categories";
+
 class AddEventForum extends React.Component<any, any>
 {
     private values;
@@ -16,7 +17,7 @@ class AddEventForum extends React.Component<any, any>
         this.values = Object(Categories).values
        
     }
-    handleOnChange = (e,i) =>{
+    handleOnChange = (e: any, i: any) =>{
         if (i ==0){//event name
             this.setState({nameEvent:e.target.value})
         }else if(i ==1){//category
@@ -25,7 +26,7 @@ class AddEventForum extends React.Component<any, any>
             this.setState({description:e.target.value})
         }
     }
-    handleSubmitClick = (e) =>{
+    handleSubmitClick = (e: any) =>{
         console.log(this.state)
 
     }
@@ -74,7 +75,7 @@ class AddEventForum extends React.Component<any, any>
                        <div className = {styles.desc_row_container}>
                        <div className = {styles.description_container}>
                        <div className = {styles.house_type_text}>Description:</div>
-                        <textarea className = {styles.description} value = {this.state.des} onChange = {(e) => this.handleOnChange(e,2)} rows = '4' cols = '43'></textarea>
+                        <textarea className = {styles.description} value = {this.state.des} onChange = {(e) => this.handleOnChange(e,2)} rows={4} cols={43}></textarea>
                         </div>
                        </div>
                     
@@ -93,4 +94,6 @@ class AddEventForum extends React.Component<any, any>
     }
 
 
-}export default AddEventForum;
+}
+
+export default AddEventForum;
