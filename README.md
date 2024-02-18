@@ -20,10 +20,8 @@ Your Hub for Volunteering Events and more, Alta aims to bring the Calgarian comm
 
 ## Chosen Prompt
 
-$$
-\text{``Use the City of Calgary's Open Data Portal to develop a tool
-or application that supports and improves the lives of Calgarians."}
-$$
+> Use the City of Calgary's Open Data Portal to develop a tool
+  or application that supports and improves the lives of Calgarians.
 
 <br />
 
