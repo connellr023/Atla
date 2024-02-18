@@ -1,6 +1,5 @@
 import { MapContainer, TileLayer,Marker,Popup } from "react-leaflet"
 import LocationResponse from "@/shared/LocationResponse";
-import MapContext from "@/contexts/MapContext";
 import React from "react";
 import styles from "@/styles/MapElement.module.scss";
 import L from "leaflet";
@@ -11,10 +10,12 @@ interface MapComponentProps
 {
   locations: LocationResponse,
   initialPosition: [number, number],
-  displayLocations:boolean
+  displayLocations: boolean,
+  updateLocation: (location: Location) => void
 }
 
-class MapElement extends React.Component<MapComponentProps> {
+class MapElement extends React.Component<MapComponentProps>
+{
   private handleMouseOver = (e: any) => {
     e.target.openPopup();
   };
@@ -22,6 +23,13 @@ class MapElement extends React.Component<MapComponentProps> {
   private handleMouseOut = (e: any) => {
     e.target.closePopup();
   };
+
+  private locationSelect;
+
+  constructor(props:any){
+    super(props)
+    this.locationSelect = props.updateLocation
+  }
 
   public render = () => {
     const { locations, initialPosition, displayLocations} = this.props;
@@ -35,28 +43,24 @@ class MapElement extends React.Component<MapComponentProps> {
     });
    
     return (
-      <MapContext.Consumer>
-        {(context) => (
-          <div className={styles.container}>
-            <MapContainer className={styles.map} center={initialPosition} zoom={13}
-                zoomControl={false} >
-                <TileLayer
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                {displayLocations ? locations.map((location, i) =>{
-                  return (
-                    <Marker riseOnHover={true} key={i} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut, click: () => context?.updateSelectedLocation(location) }} icon={festival} position={[location.longitude, location.latitude]}>
-                      <Popup className={styles.popup}>
-                        {location.name}
-                      </Popup>
-                    </Marker>
-                  )
-                }): null}
-            </MapContainer>
-          </div>
-        )}
-      </MapContext.Consumer>
+      <div className={styles.container}>
+        <MapContainer className={styles.map} center={initialPosition} zoom={13}
+            zoomControl={false} >
+            <TileLayer
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {displayLocations ? locations.map((location, i) =>{
+              return (
+                <Marker riseOnHover={true} key={i} eventHandlers={{ mouseover: this.handleMouseOver, mouseout: this.handleMouseOut, click: () => this.locationSelect(location) }} icon={festival} position={[location.longitude, location.latitude]}>
+                  <Popup className={styles.popup}>
+                    {location.name}
+                  </Popup>
+                </Marker>
+              )
+            }): null}
+        </MapContainer>
+      </div>
     );
   }
 }

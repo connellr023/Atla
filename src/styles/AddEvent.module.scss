@@ -38,6 +38,7 @@ div.add_window_exit{
     left: calc(100% - 100px);
     filter:brightness(0%);
     transition:filter 0.2s;
+    z-index:3000;
 }
 div.add_window_exit:hover{
     filter:invert(50%);

@@ -5,6 +5,8 @@ import Categories from "@/shared/Categories";
 class AddEventForum extends React.Component<any, any>
 {
     private values;
+    private onExit;
+    private addEvent;
     constructor(props:any){
         super(props);
 
@@ -12,9 +14,11 @@ class AddEventForum extends React.Component<any, any>
             nameEvent: "",
             category: Categories.Festival,
             description:"",
-            location:props.location
+            location: props.l
         }
         this.values = Object(Categories).values
+        this.onExit = props.onExit
+        this.addEvent = props.addEvent
        
     }
     handleOnChange = (e: any, i: any) =>{
@@ -38,7 +42,7 @@ class AddEventForum extends React.Component<any, any>
             <div className = {styles.adding_ammenity_container}>
             <div className = {styles.add_window}>
                     <div className = {styles.adding_header}>
-                        <div className = {styles.add_window_exit} onClick = {this.changeToNotAdding}>
+                        <div className = {styles.add_window_exit} onClick = {(e) => this.onExit(e)}>
                             <img src = '/exit.png'></img>
                         </div>
                         <div className = {styles.add_window_title}>
@@ -81,7 +85,7 @@ class AddEventForum extends React.Component<any, any>
                     
                     </div>
                     <div className = {styles.add_window_footer}>
-                        <button className = {styles.add_button_container} onClick = {(e) => this.handleSubmitClick(e)}>
+                        <button className = {styles.add_button_container} onClick = {(e) => this.addEvent(e,this.state)}>
                         add
                         </button>
                     </div>
